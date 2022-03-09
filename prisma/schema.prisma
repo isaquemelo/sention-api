@@ -1,0 +1,79 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = "mysql://root:password@localhost:3306/testingprisma"
+}
+
+model User {
+  id String @id @default(uuid())
+  devices Device[]
+  email String
+  password String
+  name String
+}
+
+model Device {
+  id String @id @default(uuid())
+  accessCode String
+  sensors Sensor[]
+  actuators Actuator[]
+  user User? @relation(fields: [userId], references: [id])
+  userId String?
+}
+
+
+model Sensor {
+  id  String @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name String?
+  type String
+  port Int
+  notificationTriggers NotificationTriggers[]
+  data SensorData[]
+  device Device @relation(fields: [deviceId], references: [id])
+  deviceId String
+}
+
+model NotificationTriggers {
+  id String @id @default(uuid())
+  name String?
+  type String
+  logicOperator String
+  value Float
+  content String
+  sensor Sensor @relation(fields: [sensorId], references: [id])
+  sensorId String
+}
+
+model SensorData {
+  id String @id @default(uuid())
+  data Json
+  sensor Sensor @relation(fields: [sensorId], references: [id])
+  sensorId String
+}
+
+model Actuator {
+  id String @id @default(uuid())
+  createdAt DateTime @default(now())
+  name String
+  type String
+  port Int
+  triggers ActuatorTriggers[]
+  device Device @relation(fields: [deviceId], references: [id])
+  deviceId String
+}
+
+model ActuatorTriggers {
+  id String @id @default(uuid())
+  name String
+  action String
+  logicOperator String
+  value Float
+  description String
+  actuator Actuator @relation(fields: [actuatorId], references: [id])
+  actuatorId String
+}
