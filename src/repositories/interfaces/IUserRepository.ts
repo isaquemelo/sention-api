@@ -1,7 +1,8 @@
 import User from "../../entities/User";
+import { IUserFindingCriterias } from "./IUserFindingCriterias";
 
 
 export interface IUserRepository {
-    findOne(id: string): Promise<User | false>;
+    findOne(params: IUserFindingCriterias): Promise<User | false>;
     save(user: User): Promise<User | false>;
 }

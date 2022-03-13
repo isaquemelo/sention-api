@@ -1,4 +1,5 @@
 import { Router } from 'express'
+import AuthRoutes from './auth/auth'
 import ItemsRoutes from './items/items'
 import UserRoutes from './user/user'
 
@@ -14,5 +15,6 @@ router.get('/ping', (req, res) => {
 
 ItemsRoutes.buildRoutes(router)
 UserRoutes.buildRoutes(router)
+AuthRoutes.buildRoutes(router)
 
 export default router

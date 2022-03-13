@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import UserController from '../../../controllers/UserController'
 import { makeUserController } from '../../factories/makeUserController'
+import { AuthenticationdMiddleware } from '../../middlewares/Authentication'
 
 export default class UserRoutes {
     public static buildRoutes(router: Router) {
@@ -11,7 +12,7 @@ export default class UserRoutes {
         })
 
         // To-do require auth
-        router.get('/user/:id', (req, res) => {
+        router.get('/user/:id', AuthenticationdMiddleware, (req, res) => {
             return userController.find(req, res)
         })
     }

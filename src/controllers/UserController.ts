@@ -5,7 +5,7 @@ import { StatusCodes } from 'http-status-codes';
 import { IUserDTO } from '../useCases/interfaces/IUserDTO'
 
 import CreateUserUseCase from '../useCases/user/CreateUserUseCase'
-import FindUserUseCase from '../useCases/user/FindUser'
+import FindUserUseCase from '../useCases/user/FindUserUseCase'
 
 export default class UserController {
     constructor(private createUserUseCase: CreateUserUseCase, private findUserUseCase: FindUserUseCase) { }
@@ -15,7 +15,7 @@ export default class UserController {
 
         try {
             const user = await this.findUserUseCase.execute(userId)
-            if (user) return res.send({ ...user, password: null })
+            if (user) return res.send({ ...user, password: undefined })
         } catch (error) {
             console.error(error)
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send()
@@ -29,7 +29,7 @@ export default class UserController {
 
         try {
             const user = await this.createUserUseCase.execute(params)
-            if (user) return res.status(StatusCodes.CREATED).send(user)
+            if (user) return res.status(StatusCodes.CREATED).send({ ...user, password: undefined })
         } catch (error) {
             console.error(error)
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send()
