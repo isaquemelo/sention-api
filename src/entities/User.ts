@@ -1,9 +1,13 @@
 import Device from "./Device";
 
 export default class User {
-    constructor(
-        private id: string, private name: string, private email: string,
-        private password: string, private devices: Device[]) {
+    id?: string
+    name: string
+    email: string
+    password: string
+    devices: Device[]
 
+    constructor(props: User) {
+        Object.assign(this, props)
     }
 }

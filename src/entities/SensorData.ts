@@ -1,4 +1,6 @@
 export default class SensorData {
-    constructor(private id: string, private data: number | object) {
-    }
+    id: string
+    data: number | object
+
+    constructor(props: SensorData) { }
 }
