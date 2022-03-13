@@ -8,72 +8,71 @@ datasource db {
 }
 
 model User {
-  id String @id @default(uuid())
-  devices Device[]
-  email String
+  id       String   @id @default(uuid())
+  name     String
+  email    String
   password String
-  name String
+  devices  Device[]
 }
 
 model Device {
-  id String @id @default(uuid())
+  id         String     @id @default(uuid())
   accessCode String
-  sensors Sensor[]
-  actuators Actuator[]
-  user User? @relation(fields: [userId], references: [id])
-  userId String?
+  sensors    Sensor[]
+  actuators  Actuator[]
+  user       User?      @relation(fields: [userId], references: [id])
+  userId     String?
 }
-
 
 model Sensor {
-  id  String @id @default(uuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  name String?
-  type String
-  port Int
-  notificationTriggers NotificationTriggers[]
-  data SensorData[]
-  device Device @relation(fields: [deviceId], references: [id])
-  deviceId String
+  id                   String                @id @default(uuid())
+  name                 String?
+  type                 String
+  port                 Int
+  data                 SensorData[]
+  notificationTriggers NotificationTrigger[]
+  device               Device                @relation(fields: [deviceId], references: [id])
+  deviceId             String
+  createdAt            DateTime              @default(now())
+  updatedAt            DateTime              @updatedAt
 }
 
-model NotificationTriggers {
-  id String @id @default(uuid())
-  name String?
-  type String
+model NotificationTrigger {
+  id            String  @id @default(uuid())
+  name          String?
+  type          String
   logicOperator String
-  value Float
-  content String
-  sensor Sensor @relation(fields: [sensorId], references: [id])
-  sensorId String
+  value         Float
+  content       String
+  sensor        Sensor  @relation(fields: [sensorId], references: [id])
+  sensorId      String
 }
 
 model SensorData {
-  id String @id @default(uuid())
-  data Json
-  sensor Sensor @relation(fields: [sensorId], references: [id])
+  id       String @id @default(uuid())
+  data     Json
+  sensor   Sensor @relation(fields: [sensorId], references: [id])
   sensorId String
 }
 
 model Actuator {
-  id String @id @default(uuid())
-  createdAt DateTime @default(now())
-  name String
-  type String
-  port Int
-  triggers ActuatorTriggers[]
-  device Device @relation(fields: [deviceId], references: [id])
-  deviceId String
+  id        String            @id @default(uuid())
+  name      String
+  type      String
+  port      Int
+  triggers  ActuatorTrigger[]
+  device    Device            @relation(fields: [deviceId], references: [id])
+  deviceId  String
+  createdAt DateTime          @default(now())
 }
 
-model ActuatorTriggers {
-  id String @id @default(uuid())
-  name String
-  action String
+model ActuatorTrigger {
+  id            String   @id @default(uuid())
+  name          String
+  action        String
   logicOperator String
-  value Float
-  description String
-  actuator Actuator @relation(fields: [actuatorId], references: [id])
-  actuatorId String
+  value         Float
+  description   String
+  actuator      Actuator @relation(fields: [actuatorId], references: [id])
+  actuatorId    String
 }
