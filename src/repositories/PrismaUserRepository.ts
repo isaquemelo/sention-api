@@ -1,5 +1,5 @@
 import { Prisma, PrismaClient } from '@prisma/client'
-import { constants } from '../constants'
+import { errors } from '../constants/errorMessages'
 import User from '../entities/User'
 import { IUserFindingCriterias } from './interfaces/IUserFindingCriterias'
 import { IUserRepository } from './interfaces/IUserRepository'
@@ -24,7 +24,7 @@ export default class PrismaUserRepository implements IUserRepository {
             if (user) return new User({ ...user, devices: [] })
 
         } catch (error) {
-            throw new Error(constants.USER_NOT_FOUND)
+            throw new Error(errors.USER_NOT_FOUND)
         }
 
         return false
@@ -42,7 +42,7 @@ export default class PrismaUserRepository implements IUserRepository {
             // ToDo: Save devices
             if (savedUser) return new User({ ...savedUser, devices: [] })
         } catch (error) {
-            throw new Error(constants.COULD_NOT_SAVE_USER)
+            throw new Error(errors.COULD_NOT_SAVE_USER)
         }
 
         return false

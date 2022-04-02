@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
-import { constants } from '../../constants'
+import { errors } from '../../constants/errorMessages'
 import User from '../../entities/User'
 import { IUserRepository } from '../../repositories/interfaces/IUserRepository'
 import { IAutheticate } from '../interfaces/IAutheticate'
@@ -25,7 +25,7 @@ export default class AuthenticateUserUseCase {
             return { ...user, password: undefined, token }
         }
 
-        throw new Error(constants.USER_NOT_FOUND)
+        throw new Error(errors.USER_NOT_FOUND)
     }
 
 }

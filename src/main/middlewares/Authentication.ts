@@ -1,19 +1,19 @@
 import { Request, Response } from "express";
 import jwt from 'jsonwebtoken'
 import { StatusCodes } from "http-status-codes";
-import { constants } from "../../constants";
+import { errors } from "../../constants/errorMessages";
 
 export const AuthenticationdMiddleware = (req: Request, res: Response, next: any) => {
     const authHeader = req.headers.authorization
 
     if (!authHeader) return res.status(StatusCodes.UNAUTHORIZED).send({
-        error: constants.AUTH_TOKEN_NOT_PRESENT
+        error: errors.AUTH_TOKEN_NOT_PRESENT
     })
 
     const parts = authHeader.split(" ")
     if (!(parts.length === 2)) {
         return res.status(StatusCodes.UNAUTHORIZED).send({
-            error: constants.TOKEN_ERROR
+            error: errors.TOKEN_ERROR
         })
     }
 
@@ -21,12 +21,12 @@ export const AuthenticationdMiddleware = (req: Request, res: Response, next: any
 
 
     if (!/^Bearer$/i.test(scheme)) res.status(StatusCodes.UNAUTHORIZED).send({
-        error: constants.BAD_FORMATED_TOKEN
+        error: errors.BAD_FORMATED_TOKEN
     })
 
     jwt.verify(token, <string>process.env.JWT_SECRET, (err, decoded: any) => {
         if (err) return res.status(StatusCodes.UNAUTHORIZED).send({
-            error: constants.INVALID_TOKEN
+            error: errors.INVALID_TOKEN
         })
 
         if (decoded) {
