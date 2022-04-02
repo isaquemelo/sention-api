@@ -1,5 +1,7 @@
 import { Prisma, PrismaClient } from '@prisma/client'
 import { errors } from '../constants/errorMessages'
+import Device from '../entities/Device'
+import Sensor from '../entities/Sensor'
 import User from '../entities/User'
 import { IUserFindingCriterias } from './interfaces/IUserFindingCriterias'
 import { IUserRepository } from './interfaces/IUserRepository'
@@ -46,5 +48,34 @@ export default class PrismaUserRepository implements IUserRepository {
         }
 
         return false
+    }
+
+    async associateDeviceToUser(accessCode: string, userId: string): Promise<Device | false> {
+        try {
+            const device = await this.prisma.device.findUnique({
+                where: {
+                    accessCode
+                },
+            })
+
+            const user = await this.prisma.user.update({
+                where: {
+                    id: userId,
+                },
+                data: {
+                    devices: {
+                        connect: {
+                            id: device?.id,
+                        }
+                    }
+                }
+            })
+
+            if (user && device) return new Device({ ...device, actuators: [], sensors: [] })
+
+            return Promise.resolve(false);
+        } catch (error) {
+            throw new Error(errors.COULD_NOT_FIND_DEVICE)
+        }
     }
 }

@@ -12,9 +12,12 @@ export default class UserRoutes {
             return userController.save(req, res)
         })
 
-        // To-do require auth
         router.get('/user/:id', AuthenticationdMiddleware, AllowOnlyOwnAccess, (req, res) => {
             return userController.find(req, res)
+        })
+
+        router.post('/user/devices', AuthenticationdMiddleware, (req, res) => {
+            return userController.associateDevice(req, res)
         })
     }
 }

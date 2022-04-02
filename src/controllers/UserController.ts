@@ -6,9 +6,14 @@ import { IUserDTO } from '../useCases/interfaces/IUserDTO'
 
 import CreateUserUseCase from '../useCases/user/CreateUserUseCase'
 import FindUserUseCase from '../useCases/user/FindUserUseCase'
+import AssociateDeviceToUserUseCase from '../useCases/user/AssociateDeviceToUserUseCase';
 
 export default class UserController {
-    constructor(private createUserUseCase: CreateUserUseCase, private findUserUseCase: FindUserUseCase) { }
+    constructor(
+        private createUserUseCase: CreateUserUseCase, private findUserUseCase: FindUserUseCase,
+        private associateDeviceToUser: AssociateDeviceToUserUseCase,
+
+    ) { }
 
     async find(req: Request, res: Response): Promise<Response | undefined> {
         const userId = req.params.id
@@ -30,6 +35,21 @@ export default class UserController {
         try {
             const user = await this.createUserUseCase.execute(params)
             if (user) return res.status(StatusCodes.CREATED).send({ ...user, password: undefined })
+        } catch (error) {
+            console.error(error)
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send()
+        }
+
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send()
+    }
+
+    async associateDevice(req: Request, res: Response): Promise<Response | undefined> {
+        const { userId } = req.params
+        const { accessCode = "" } = req.body
+
+        try {
+            const device = await this.associateDeviceToUser.execute(accessCode, userId)
+            if (device) return res.status(StatusCodes.CREATED).send(device)
         } catch (error) {
             console.error(error)
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send()
