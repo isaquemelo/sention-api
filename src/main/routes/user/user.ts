@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import UserController from '../../../controllers/UserController'
 import { makeUserController } from '../../factories/makeUserController'
+import { AllowOnlyOwnAccess } from '../../middlewares/AllowOnlyOwnAccess'
 import { AuthenticationdMiddleware } from '../../middlewares/Authentication'
 
 export default class UserRoutes {
@@ -12,7 +13,7 @@ export default class UserRoutes {
         })
 
         // To-do require auth
-        router.get('/user/:id', AuthenticationdMiddleware, (req, res) => {
+        router.get('/user/:id', AuthenticationdMiddleware, AllowOnlyOwnAccess, (req, res) => {
             return userController.find(req, res)
         })
     }
