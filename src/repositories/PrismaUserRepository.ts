@@ -3,8 +3,8 @@ import { errors } from '../constants/errorMessages'
 import Device from '../entities/Device'
 import Sensor from '../entities/Sensor'
 import User from '../entities/User'
-import { IUserFindingCriterias } from './interfaces/IUserFindingCriterias'
-import { IUserRepository } from './interfaces/IUserRepository'
+import { IUserFindingCriterias } from './interfaces/user/IUserFindingCriterias'
+import { IUserRepository } from './interfaces/user/IUserRepository'
 
 
 export default class PrismaUserRepository implements IUserRepository {
@@ -18,12 +18,21 @@ export default class PrismaUserRepository implements IUserRepository {
                 },
 
                 include: {
-                    devices: true,
+                    devices: {
+                        include: {
+                            actuators: {
+                                include: {
+                                    triggers: true,
+                                }
+                            },
+                            sensors: true,
+                        }
+                    },
                 },
             })
 
             // ToDo: Return user devices as well
-            if (user) return new User({ ...user, devices: [] })
+            if (user) return new User(user)
 
         } catch (error) {
             throw new Error(errors.USER_NOT_FOUND)
@@ -50,14 +59,8 @@ export default class PrismaUserRepository implements IUserRepository {
         return false
     }
 
-    async associateDeviceToUser(accessCode: string, userId: string): Promise<Device | false> {
+    async associateDeviceToUser(deviceId: string, userId: string): Promise<boolean> {
         try {
-            const device = await this.prisma.device.findUnique({
-                where: {
-                    accessCode
-                },
-            })
-
             const user = await this.prisma.user.update({
                 where: {
                     id: userId,
@@ -65,34 +68,21 @@ export default class PrismaUserRepository implements IUserRepository {
                 data: {
                     devices: {
                         connect: {
-                            id: device?.id,
+                            id: deviceId,
                         }
                     }
                 }
             })
 
-            if (user && device) return new Device({ ...device, actuators: [], sensors: [] })
-
-            return Promise.resolve(false);
+            if (!user) return false
+            return true
         } catch (error) {
-            throw new Error(errors.COULD_NOT_FIND_DEVICE)
+            throw new Error(errors.COULD_NOT_ASSOCIATE_DEVICE)
         }
     }
 
     async dissociateDevice(deviceId: string, userId: string): Promise<boolean> {
         try {
-            const user = await this.prisma.user.findUnique({
-                where: {
-                    id: userId
-                },
-                select: {
-                    devices: true,
-                }
-            })
-
-            const isDeviceFromUser = user?.devices.some(({ id }) => id === deviceId)
-            if (!isDeviceFromUser) return false
-
             await this.prisma.user.update({
                 where: {
                     id: userId,

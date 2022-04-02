@@ -1,5 +1,5 @@
 import bcrypt from 'bcryptjs'
-import { IUserRepository } from '../../repositories/interfaces/IUserRepository'
+import { IUserRepository } from '../../repositories/interfaces/user/IUserRepository'
 import { IUserDTO } from '../interfaces/IUserDTO'
 import User from '../../entities/User'
 

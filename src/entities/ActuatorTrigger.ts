@@ -4,8 +4,8 @@ import logicOperators from "./enums/logicOperators";
 export default class ActuatorTrigger {
     id: string
     name: string
-    action: actuatorActions
-    logicOperator: logicOperators
+    action: string
+    logicOperator: string
     value: number
     description: string
 

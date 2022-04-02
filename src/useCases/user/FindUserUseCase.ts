@@ -1,4 +1,4 @@
-import { IUserRepository } from '../../repositories/interfaces/IUserRepository'
+import { IUserRepository } from '../../repositories/interfaces/user/IUserRepository'
 import User from '../../entities/User'
 
 export default class FindUserUseCase {

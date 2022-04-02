@@ -4,7 +4,7 @@ import actuatorTypes from "./enums/actuatorTypes";
 export default class Actuator {
     id: string
     name: string
-    type: actuatorTypes
+    type: string
     port: number
     triggers: ActuatorTrigger[]
     createdAt?: Date

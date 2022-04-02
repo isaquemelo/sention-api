@@ -2,7 +2,7 @@ import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import { errors } from '../../constants/errorMessages'
 import User from '../../entities/User'
-import { IUserRepository } from '../../repositories/interfaces/IUserRepository'
+import { IUserRepository } from '../../repositories/interfaces/user/IUserRepository'
 import { IAutheticate } from '../interfaces/IAutheticate'
 
 export default class AuthenticateUserUseCase {
