@@ -16,6 +16,10 @@ export default class UserRoutes {
             return userController.find(req, res)
         })
 
+        router.get('/user/devices/:deviceId', AuthenticationdMiddleware, (req, res) => {
+            return userController.getDevice(req, res)
+        })
+
         router.post('/user/devices', AuthenticationdMiddleware, (req, res) => {
             return userController.associateDevice(req, res)
         })
