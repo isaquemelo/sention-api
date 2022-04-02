@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import UserController from '../../../controllers/UserController'
 import { makeUserController } from '../../factories/makeUserController'
-import { AllowOnlyOwnAccess } from '../../middlewares/AllowOnlyOwnAccess'
+import { AllowOnlyOwnAccess } from '../../middlewares/users/AllowOnlyOwnAccess'
 import { AuthenticationdMiddleware } from '../../middlewares/Authentication'
 
 export default class UserRoutes {
@@ -18,6 +18,10 @@ export default class UserRoutes {
 
         router.post('/user/devices', AuthenticationdMiddleware, (req, res) => {
             return userController.associateDevice(req, res)
+        })
+
+        router.delete('/user/devices/:deviceId', AuthenticationdMiddleware, (req, res) => {
+            return userController.dissociateDevice(req, res)
         })
     }
 }

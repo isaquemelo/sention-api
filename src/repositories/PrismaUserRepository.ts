@@ -78,4 +78,37 @@ export default class PrismaUserRepository implements IUserRepository {
             throw new Error(errors.COULD_NOT_FIND_DEVICE)
         }
     }
+
+    async dissociateDevice(deviceId: string, userId: string): Promise<boolean> {
+        try {
+            const user = await this.prisma.user.findUnique({
+                where: {
+                    id: userId
+                },
+                select: {
+                    devices: true,
+                }
+            })
+
+            const isDeviceFromUser = user?.devices.some(({ id }) => id === deviceId)
+            if (!isDeviceFromUser) return false
+
+            await this.prisma.user.update({
+                where: {
+                    id: userId,
+                },
+                data: {
+                    devices: {
+                        disconnect: {
+                            id: deviceId,
+                        }
+                    }
+                }
+            })
+
+            return true;
+        } catch (error) {
+            throw new Error(errors.COULD_NOT_DISSOCIATE_DEVICE)
+        }
+    }
 }

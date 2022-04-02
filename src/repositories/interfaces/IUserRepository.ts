@@ -7,4 +7,5 @@ export interface IUserRepository {
     findOne(params: IUserFindingCriterias): Promise<User | false>;
     save(user: User): Promise<User | false>;
     associateDeviceToUser(accessCode: string, userId: string): Promise<Device | false>;
+    dissociateDevice(deviceId: string, userId: string): Promise<boolean>;
 }
