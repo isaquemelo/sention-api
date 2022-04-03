@@ -20,11 +20,11 @@ export default class UserRoutes {
             return userController.getDevice(req, res)
         })
 
-        router.post('/user/devices', AuthenticationdMiddleware, (req, res) => {
+        router.post('/user/devices/associate', AuthenticationdMiddleware, (req, res) => {
             return userController.associateDevice(req, res)
         })
 
-        router.delete('/user/devices/:deviceId', AuthenticationdMiddleware, (req, res) => {
+        router.delete('/user/devices/dissociate/:deviceId', AuthenticationdMiddleware, (req, res) => {
             return userController.dissociateDevice(req, res)
         })
     }
