@@ -89,12 +89,12 @@ export default class UserController {
     }
 
     async retrieveSensors(req: Request, res: Response): Promise<Response | undefined>{
-        const { userId, deviceId } = req.params
+        const {deviceId, sensorId} = req.params
 
         try {
-            const device = await this.retrieveSensorsUseCase.execute(deviceId, userId)
-            if (!device) return res.status(StatusCodes.NOT_FOUND).send()
-            return res.send(device)
+            const sensor = await this.retrieveSensorsUseCase.execute(sensorId, deviceId)
+            if (!sensor) return res.status(StatusCodes.NOT_FOUND).send()
+            return res.send(sensor)
         } catch (error) {
             console.error(error)
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send()

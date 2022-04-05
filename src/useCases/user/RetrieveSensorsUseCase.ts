@@ -1,22 +1,22 @@
-import Device from '../../entities/Device'
-import { IDeviceRepository } from '../../repositories/interfaces/device/IDeviceRepository'
+import Sensor from '../../entities/Sensor'
+import { ISensorRepository } from '../../repositories/interfaces/sensor/ISensorRepository'
 
 export default class RetrieveSensorsUseCase {
-    constructor(private deviceRepository: IDeviceRepository) { }
+    constructor(private sensorRepository: ISensorRepository) { }
 
-    async execute(deviceId: string, userId: string): Promise<Device | false> {
+    async execute(sensorId: string, deviceId: string): Promise<Sensor | false> {
         // Find device
-        const device = await this.deviceRepository.findOne({
-            id: deviceId,
+        const sensor = await this.sensorRepository.findOne({
+            id: sensorId,
         })
 
         // Device not found
-        if (!device) return false
+        if (!sensor) return false
 
         // Does the user own the device?
-        if (device.userId !== userId) return false
+        if (sensor.deviceId !== deviceId) return false
 
-        return new Device(device)
+        return new Sensor(sensor)
     }
 
 }
