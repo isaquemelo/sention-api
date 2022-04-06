@@ -6,7 +6,7 @@ import AssociateDeviceToUserUseCase from '../../useCases/user/AssociateDeviceToU
 import DissociateDeviceUseCase from '../../useCases/user/DissociateDeviceUseCase'
 import PrismaDeviceRepository from '../../repositories/PrismaDeviceRepository'
 import GetDeviceUseCase from '../../useCases/user/GetDeviceUseCase'
-import GetSensorsUseCase from '../../useCases/user/GetSensorsUseCase'
+import GetSensorUseCase from '../../useCases/user/GetSensorUseCase'
 import PrismaSensorRepository from '../../repositories/PrismaSensorRepository'
 
 
@@ -20,12 +20,12 @@ const makeUserController = (): UserController => {
     const associateDeviceToUserUseCase = new AssociateDeviceToUserUseCase(prismaUserStorage, prismaDeviceStorage)
     const dissociateDeviceUseCase = new DissociateDeviceUseCase(prismaUserStorage)
     const getDeviceUseCase = new GetDeviceUseCase(prismaDeviceStorage)
-    const getSensorsUseCase = new GetSensorsUseCase(prismaSensorStorage)
+    const getSensorUseCase = new GetSensorUseCase(prismaSensorStorage)
 
     return new UserController(
         createUserUseCase, findUserUseCase,
         associateDeviceToUserUseCase, dissociateDeviceUseCase,
-        getDeviceUseCase, getSensorsUseCase
+        getDeviceUseCase, getSensorUseCase
     )
 }
 

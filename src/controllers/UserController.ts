@@ -9,13 +9,13 @@ import FindUserUseCase from '../useCases/user/FindUserUseCase'
 import AssociateDeviceToUserUseCase from '../useCases/user/AssociateDeviceToUserUseCase';
 import DissociateDeviceUseCase from '../useCases/user/DissociateDeviceUseCase';
 import GetDeviceUseCase from '../useCases/user/GetDeviceUseCase';
-import GetSensorsUseCase from '../useCases/user/GetSensorsUseCase'
+import GetSensorUseCase from '../useCases/user/GetSensorUseCase'
 
 export default class UserController {
     constructor(
         private createUserUseCase: CreateUserUseCase, private findUserUseCase: FindUserUseCase,
         private associateDeviceToUserUseCase: AssociateDeviceToUserUseCase, private dissociateDeviceUseCase: DissociateDeviceUseCase,
-        private getDeviceUseCase: GetDeviceUseCase, private getSensorsUseCase: GetSensorsUseCase,
+        private getDeviceUseCase: GetDeviceUseCase, private getSensorUseCase: GetSensorUseCase,
     ) { }
 
     async find(req: Request, res: Response): Promise<Response | undefined> {
@@ -88,11 +88,11 @@ export default class UserController {
         }
     }
 
-    async getSensors(req: Request, res: Response): Promise<Response | undefined>{
+    async getSensor(req: Request, res: Response): Promise<Response | undefined>{
         const {sensorId} = req.params
 
         try {
-            const sensor = await this.getSensorsUseCase.execute(sensorId)
+            const sensor = await this.getSensorUseCase.execute(sensorId)
             if (!sensor) return res.status(StatusCodes.NOT_FOUND).send()
             return res.send(sensor)
         } catch (error) {

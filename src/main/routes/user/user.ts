@@ -29,7 +29,7 @@ export default class UserRoutes {
         })
 
         router.get('/user/devices/:deviceId/sensors/:sensorId', AuthenticationdMiddleware, (req, res) => {
-            return userController.getSensors(req, res)
+            return userController.getSensor(req, res)
         })
     }
 }

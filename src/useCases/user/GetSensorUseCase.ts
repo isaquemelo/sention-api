@@ -1,7 +1,7 @@
 import Sensor from '../../entities/Sensor'
 import { ISensorRepository } from '../../repositories/interfaces/sensor/ISensorRepository'
 
-export default class GetSensorsUseCase {
+export default class GetSensorUseCase {
     constructor(private sensorRepository: ISensorRepository) { }
 
     async execute(sensorId: string): Promise<Sensor | false> {
