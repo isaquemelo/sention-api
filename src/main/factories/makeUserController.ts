@@ -17,8 +17,10 @@ const makeUserController = (): UserController => {
 
     const createUserUseCase = new CreateUserUseCase(prismaUserStorage)
     const getUserUseCase = new GetUserUseCase(prismaUserStorage)
+
     const associateDeviceToUserUseCase = new AssociateDeviceToUserUseCase(prismaUserStorage, prismaDeviceStorage)
     const dissociateDeviceUseCase = new DissociateDeviceUseCase(prismaUserStorage)
+
     const getDeviceUseCase = new GetDeviceUseCase(prismaDeviceStorage)
     const getSensorUseCase = new GetSensorUseCase(prismaSensorStorage)
 

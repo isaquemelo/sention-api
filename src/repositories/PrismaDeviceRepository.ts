@@ -4,6 +4,7 @@ import { errors } from '../constants/errorMessages'
 import Device from '../entities/Device'
 import Sensor from '../entities/Sensor'
 import User from '../entities/User'
+import { makeUniqueAccessCode } from '../main/factories/makeUniqueAccessCode'
 
 import { IDeviceFindingCriterias } from './interfaces/device/IDeviceFindingCriterias'
 import { IDeviceRepository } from './interfaces/device/IDeviceRepository'
@@ -40,5 +41,24 @@ export default class PrismaDeviceRepository implements IDeviceRepository {
         } catch (error) {
             throw new Error(errors.DEVICE_NOT_FOUND)
         }
+    }
+
+    async createDevice(): Promise<false | Device> {
+        const device = await this.prisma.device.create({
+            data: {
+                accessCode: makeUniqueAccessCode()
+            },
+            include: {
+                sensors: true,
+                actuators: {
+                    include: {
+                        triggers: true,
+                    }
+                },
+            }
+        })
+
+        if (device) return new Device(device)
+        return false
     }
 }
