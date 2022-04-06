@@ -1,7 +1,7 @@
 
 import { Request, Response } from 'express'
-import { StatusCodes } from 'http-status-codes';
-import CreateDeviceUseCase from '../useCases/device/CreateDeviceUseCase';
+import { StatusCodes } from 'http-status-codes'
+import CreateDeviceUseCase from '../useCases/device/CreateDeviceUseCase'
 
 export default class DeviceController {
     constructor(private createDeviceUseCase: CreateDeviceUseCase) { }
