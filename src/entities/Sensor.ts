@@ -1,3 +1,5 @@
+import { NotificationTrigger } from "@prisma/client";
+import Device from "./Device";
 import SensorData from "./SensorData";
 
 export default class Sensor {
@@ -5,9 +7,8 @@ export default class Sensor {
     name: string
     type: string
     port: number | object
-    createdAt?: Date
 
     constructor(props: Sensor) {
-        // Sensor data will be fetched on demmamnd
+        Object.assign(this, props)
     }
 }
