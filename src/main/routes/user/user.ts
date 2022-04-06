@@ -9,11 +9,11 @@ export default class UserRoutes {
         const userController: UserController = makeUserController()
 
         router.post('/user', async (req, res) => {
-            return userController.save(req, res)
+            return userController.saveUser(req, res)
         })
 
         router.get('/user/:id', AuthenticationdMiddleware, AllowOnlyOwnAccess, (req, res) => {
-            return userController.find(req, res)
+            return userController.getUser(req, res)
         })
 
         router.get('/user/devices/:deviceId', AuthenticationdMiddleware, (req, res) => {

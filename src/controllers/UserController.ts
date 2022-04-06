@@ -5,7 +5,7 @@ import { StatusCodes } from 'http-status-codes';
 import { IUserDTO } from '../useCases/interfaces/IUserDTO'
 
 import CreateUserUseCase from '../useCases/user/CreateUserUseCase'
-import FindUserUseCase from '../useCases/user/FindUserUseCase'
+import GetUserUseCase from '../useCases/user/GetUserUseCase'
 import AssociateDeviceToUserUseCase from '../useCases/user/AssociateDeviceToUserUseCase';
 import DissociateDeviceUseCase from '../useCases/user/DissociateDeviceUseCase';
 import GetDeviceUseCase from '../useCases/user/GetDeviceUseCase';
@@ -13,16 +13,16 @@ import GetSensorUseCase from '../useCases/user/GetSensorUseCase'
 
 export default class UserController {
     constructor(
-        private createUserUseCase: CreateUserUseCase, private findUserUseCase: FindUserUseCase,
+        private createUserUseCase: CreateUserUseCase, private getUserUseCase: GetUserUseCase,
         private associateDeviceToUserUseCase: AssociateDeviceToUserUseCase, private dissociateDeviceUseCase: DissociateDeviceUseCase,
         private getDeviceUseCase: GetDeviceUseCase, private getSensorUseCase: GetSensorUseCase,
     ) { }
 
-    async find(req: Request, res: Response): Promise<Response | undefined> {
+    async getUser(req: Request, res: Response): Promise<Response | undefined> {
         const userId = req.params.id
 
         try {
-            const user = await this.findUserUseCase.execute(userId)
+            const user = await this.getUserUseCase.execute(userId)
             if (user) return res.send({ ...user, password: undefined })
         } catch (error) {
             console.error(error)
@@ -32,7 +32,7 @@ export default class UserController {
         return res.status(StatusCodes.NOT_FOUND).send()
     }
 
-    async save(req: Request, res: Response): Promise<Response | undefined> {
+    async saveUser(req: Request, res: Response): Promise<Response | undefined> {
         const params: IUserDTO = req.body
 
         try {
