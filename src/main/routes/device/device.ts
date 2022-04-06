@@ -6,7 +6,7 @@ export default class DeviceRoutes {
     public static buildRoutes(router: Router) {
         const deviceController: DeviceController = makeDeviceController()
 
-        router.post('/device', async (req, res) => {
+        router.post('/devices', (req, res) => {
             return deviceController.createDevice(req, res)
         })
     }

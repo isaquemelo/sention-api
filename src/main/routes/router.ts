@@ -13,10 +13,9 @@ router.get('/ping', (req, res) => {
     return res.status(200).send(`Pong ${count}`)
 })
 
-
+DeviceRoutes.buildRoutes(router)
 ItemsRoutes.buildRoutes(router)
 UserRoutes.buildRoutes(router)
 AuthRoutes.buildRoutes(router)
-DeviceRoutes.buildRoutes(router)
 
 export default router
