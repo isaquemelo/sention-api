@@ -32,7 +32,7 @@ export default class PrismaDeviceRepository implements IDeviceRepository {
             })
 
             if (device) {
-                const userId: string = device.userId || ""
+                const userId: string = device.userId || ''
                 return new Device({ ...device, userId })
             }
 

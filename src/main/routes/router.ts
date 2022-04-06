@@ -9,8 +9,8 @@ const router = Router()
 let count = 0
 
 router.get('/ping', (req, res) => {
-	count++
-	return res.status(200).send(`Pong ${count}`)
+    count++
+    return res.status(200).send(`Pong ${count}`)
 })
 
 
