@@ -7,12 +7,6 @@ export default class Sensor {
     name: string
     type: string
     port: number | object
-    data?: SensorData
-    notificationTriggers?: NotificationTrigger[]
-    device?: Device
-    deviceId?: string
-    createdAt?: Date
-    updatedAt?: Date
 
     constructor(props: Sensor) {
         Object.assign(this, props)

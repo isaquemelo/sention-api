@@ -26,8 +26,7 @@ export default class PrismaSensorRepository implements ISensorRepository {
             })
 
             if (sensor) {
-                const deviceId: string = sensor.deviceId || ""
-                return new Sensor({...sensor, deviceId})
+                return new Sensor({...sensor})
             }
 
             return false
