@@ -7,7 +7,7 @@ export default class CreateSensorUseCase {
 
     async execute(data: ISensorDTO, deviceId: string): Promise<Sensor | false> {
 
-        const sensor = new Sensor({ ...data})
+        const sensor = new Sensor({ ...data })
 
         return await this.sensorRepository.save(sensor, deviceId)
     }

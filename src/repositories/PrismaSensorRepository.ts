@@ -38,25 +38,11 @@ export default class PrismaSensorRepository implements ISensorRepository {
 
     async save(sensor: Sensor, deviceId: string): Promise<Sensor | false> {
         try {
-
             const savedSensor = await this.prisma.sensor.create({
                 data: {
                     deviceId,
-                    ...sensor
-                }
-            })
-
-            await this.prisma.device.update({
-                where: {
-                    id: deviceId
-                },
-
-                data: {
-                    sensors: {
-                        create: {
-                            ...sensor
-                        }
-                    }
+                    ...sensor,
+                    port: sensor.port as Prisma.JsonObject
                 }
             })
 

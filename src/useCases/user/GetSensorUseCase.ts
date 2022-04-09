@@ -7,7 +7,7 @@ export default class GetSensorUseCase {
     async execute(sensorId: string): Promise<Sensor | false> {
         // Find sensor
         const sensor = await this.sensorRepository.findOne({
-            id: sensorId,
+            id: sensorId
         })
 
         // Sensor not found
