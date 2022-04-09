@@ -23,8 +23,9 @@ const makeUserController = (): UserController => {
     const dissociateDeviceUseCase = new DissociateDeviceUseCase(prismaUserStorage)
 
     const getDeviceUseCase = new GetDeviceUseCase(prismaDeviceStorage)
-    const getSensorUseCase = new GetSensorUseCase(prismaSensorStorage)
-    const createSensorUseCase = new CreateSensorUseCase(prismaSensorStorage)
+
+    const getSensorUseCase = new GetSensorUseCase(prismaSensorStorage, prismaDeviceStorage)
+    const createSensorUseCase = new CreateSensorUseCase(prismaSensorStorage, prismaDeviceStorage)
 
     return new UserController(
         createUserUseCase, getUserUseCase,

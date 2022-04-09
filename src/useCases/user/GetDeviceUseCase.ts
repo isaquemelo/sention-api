@@ -8,7 +8,7 @@ export default class GetDeviceUseCase {
         // Find device
         const device = await this.deviceRepository.findOne({
             id: deviceId,
-        })
+        }, true)
 
         // Device not found
         if (!device) return false

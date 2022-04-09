@@ -1,10 +1,10 @@
-import { Prisma } from "@prisma/client";
+import { Prisma } from '@prisma/client'
 
-import Device from "../../entities/Device";
-import prismaSensorAdapter from "./prismaSensorAdapter";
-import prismaActuatorAdapter from "./prismaActuatorAdapter";
+import Device from '../../entities/Device'
+import prismaSensorAdapter from './prismaSensorAdapter'
+import prismaActuatorAdapter from './prismaActuatorAdapter'
 
-import Actuator from "../../entities/Actuator";
+import Actuator from '../../entities/Actuator'
 
 type prismaDeviceWithRelations = Prisma.DeviceGetPayload<{
     include: {
@@ -18,7 +18,7 @@ type prismaDeviceWithRelations = Prisma.DeviceGetPayload<{
 }>
 
 const prismaDeviceAdapter = (prismaDevice: prismaDeviceWithRelations): Device => {
-    const userId: string = prismaDevice.userId || ""
+    const userId: string = prismaDevice.userId || ''
 
     return new Device({
         ...prismaDevice,

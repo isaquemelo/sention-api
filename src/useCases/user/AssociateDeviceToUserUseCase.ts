@@ -11,7 +11,7 @@ export default class AssociateDeviceToUserUseCase {
         // find the device using the access code (device repository)
         const device = await this.deviceRepository.findOne({
             accessCode,
-        })
+        }, false)
 
         // check if its a valid device
         if (!device) throw new Error(errors.COULD_NOT_FIND_DEVICE)

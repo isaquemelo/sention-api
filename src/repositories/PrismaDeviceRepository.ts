@@ -14,25 +14,38 @@ import { IDeviceRepository } from './interfaces/device/IDeviceRepository'
 export default class PrismaDeviceRepository implements IDeviceRepository {
     private prisma: PrismaClient = new PrismaClient()
 
-    async findOne(params: IDeviceFindingCriterias): Promise<Device | false> {
+    async findOne(params: IDeviceFindingCriterias, includeRelations = true): Promise<Device | false> {
         try {
-            const device = await this.prisma.device.findUnique({
-                where: {
-                    ...params,
-                },
-
-                include: {
-                    actuators: {
-                        include: {
-                            triggers: true,
-                        }
+            if (includeRelations) {
+                const device = await this.prisma.device.findUnique({
+                    where: {
+                        ...params,
                     },
-                    sensors: true,
-                }
-            })
 
-            if (device) {
-                return prismaDeviceAdapter(device)
+                    include: {
+                        actuators: {
+                            include: {
+                                triggers: true,
+                            }
+                        },
+                        sensors: true,
+                    }
+                })
+
+                if (device) {
+                    return prismaDeviceAdapter(device)
+                }
+
+            } else {
+                const device = await this.prisma.device.findUnique({
+                    where: {
+                        ...params,
+                    },
+                })
+
+                if (device) {
+                    return new Device({ ...device, sensors: [], actuators: [] })
+                }
             }
 
             return false
