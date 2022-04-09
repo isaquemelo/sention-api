@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "dev": "ts-node-dev --exit-child --respawn --watch src src/main/server.ts"
+    "dev": "ts-node-dev --exit-child --respawn --watch src src/main/server.ts",
+    "lint": "eslint --fix"
   },
   "dependencies": {
     "@prisma/client": "^3.12.0",
