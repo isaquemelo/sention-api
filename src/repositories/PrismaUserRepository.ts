@@ -17,7 +17,6 @@ export default class PrismaUserRepository implements IUserRepository {
                 where: {
                     ...params,
                 },
-
                 include: {
                     devices: {
                         include: {
@@ -97,7 +96,7 @@ export default class PrismaUserRepository implements IUserRepository {
                 }
             })
 
-            return true;
+            return true
         } catch (error) {
             throw new Error(errors.COULD_NOT_DISSOCIATE_DEVICE)
         }

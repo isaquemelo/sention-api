@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import AuthRoutes from './auth/auth'
+import DeviceRoutes from './device/device'
 import ItemsRoutes from './items/items'
 import UserRoutes from './user/user'
 
@@ -12,7 +13,7 @@ router.get('/ping', (req, res) => {
     return res.status(200).send(`Pong ${count}`)
 })
 
-
+DeviceRoutes.buildRoutes(router)
 ItemsRoutes.buildRoutes(router)
 UserRoutes.buildRoutes(router)
 AuthRoutes.buildRoutes(router)
