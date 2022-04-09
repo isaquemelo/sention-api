@@ -28,7 +28,7 @@ model Sensor {
   id                   String                @id @default(uuid())
   name                 String
   type                 String
-  port                 Int
+  port                 Json
   data                 SensorData[]
   notificationTriggers NotificationTrigger[]
   device               Device                @relation(fields: [deviceId], references: [id])

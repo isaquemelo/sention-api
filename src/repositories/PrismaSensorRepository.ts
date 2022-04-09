@@ -26,7 +26,7 @@ export default class PrismaSensorRepository implements ISensorRepository {
             })
 
             if (sensor) {
-                return new Sensor({...sensor})
+                return new Sensor(sensor)
             }
 
             return false
@@ -34,5 +34,37 @@ export default class PrismaSensorRepository implements ISensorRepository {
         } catch (error) {
             throw new Error(errors.SENSOR_NOT_FOUND)
         }
+    }
+
+    async save(sensor: Sensor, deviceId: string): Promise<Sensor | false> {
+        try {
+
+            const savedSensor = await this.prisma.sensor.create({
+                data: {
+                    deviceId,
+                    ...sensor
+                }
+            })
+
+            await this.prisma.device.update({
+                where: {
+                    id: deviceId
+                },
+
+                data:{
+                    sensors:{
+                        create:{
+                            ...sensor
+                        }
+                    }
+                }
+            })
+
+            if (savedSensor) return new Sensor({ ...sensor, id: savedSensor.id})
+        } catch (error) {
+            throw new Error(errors.COULD_NOT_SAVE_SENSOR)
+        }
+
+        return false
     }
 }

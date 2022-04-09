@@ -1,12 +1,8 @@
-import { NotificationTrigger } from "@prisma/client";
-import Device from "./Device";
-import SensorData from "./SensorData";
-
 export default class Sensor {
-    id: string
+    id?: string
     name: string
     type: string
-    port: number | object
+    port: object
 
     constructor(props: Sensor) {
         Object.assign(this, props)

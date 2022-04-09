@@ -10,12 +10,14 @@ import AssociateDeviceToUserUseCase from '../useCases/user/AssociateDeviceToUser
 import DissociateDeviceUseCase from '../useCases/user/DissociateDeviceUseCase';
 import GetDeviceUseCase from '../useCases/user/GetDeviceUseCase';
 import GetSensorUseCase from '../useCases/user/GetSensorUseCase'
+import { ISensorDTO } from '../useCases/interfaces/ISensorDTO';
+import CreateSensorUseCase from '../useCases/user/CreateSensorUseCase';
 
 export default class UserController {
     constructor(
         private createUserUseCase: CreateUserUseCase, private getUserUseCase: GetUserUseCase,
         private associateDeviceToUserUseCase: AssociateDeviceToUserUseCase, private dissociateDeviceUseCase: DissociateDeviceUseCase,
-        private getDeviceUseCase: GetDeviceUseCase, private getSensorUseCase: GetSensorUseCase,
+        private getDeviceUseCase: GetDeviceUseCase, private getSensorUseCase: GetSensorUseCase, private createSensorUseCase: CreateSensorUseCase
     ) { }
 
     async getUser(req: Request, res: Response): Promise<Response | undefined> {
@@ -99,5 +101,20 @@ export default class UserController {
             console.error(error)
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send()
         }
+    }
+
+    async saveSensor(req: Request, res: Response): Promise<Response | undefined> {
+        const {deviceId, _} = req.params
+        const body: ISensorDTO = req.body
+
+        try {
+            const sensor = await this.createSensorUseCase.execute(body, deviceId)
+            if (sensor) return res.status(StatusCodes.CREATED).send({ ...sensor})
+        } catch (error) {
+            console.error(error)
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send()
+        }
+
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send()
     }
 }
