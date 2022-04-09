@@ -57,7 +57,7 @@ export default class PrismaDeviceRepository implements IDeviceRepository {
             }
         })
 
-        if (device) return new Device(device)
+        if (device) return prismaDeviceAdapter(device)
         return false
     }
 }
