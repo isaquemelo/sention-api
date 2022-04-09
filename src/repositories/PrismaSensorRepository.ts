@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client'
+import { Prisma, PrismaClient } from '@prisma/client'
 import { errors } from '../constants/errorMessages'
 
 import Device from '../entities/Device'
@@ -8,7 +8,7 @@ import User from '../entities/User'
 import { ISensorFindingCriterias } from './interfaces/sensor/ISensorFindingCriterias'
 import { ISensorRepository } from './interfaces/sensor/ISensorRepository'
 
-
+import prismaSensorAdapter from './adapters/prismaSensorAdapter'
 
 export default class PrismaSensorRepository implements ISensorRepository {
     private prisma: PrismaClient = new PrismaClient()
@@ -19,14 +19,14 @@ export default class PrismaSensorRepository implements ISensorRepository {
                 where: {
                     ...params,
                 },
-                
-                include:{
+
+                include: {
                     notificationTriggers: true
                 }
             })
 
             if (sensor) {
-                return new Sensor(sensor)
+                return prismaSensorAdapter(sensor)
             }
 
             return false
@@ -51,16 +51,16 @@ export default class PrismaSensorRepository implements ISensorRepository {
                     id: deviceId
                 },
 
-                data:{
-                    sensors:{
-                        create:{
+                data: {
+                    sensors: {
+                        create: {
                             ...sensor
                         }
                     }
                 }
             })
 
-            if (savedSensor) return new Sensor({ ...sensor, id: savedSensor.id})
+            if (savedSensor) return new Sensor({ ...sensor, id: savedSensor.id })
         } catch (error) {
             throw new Error(errors.COULD_NOT_SAVE_SENSOR)
         }

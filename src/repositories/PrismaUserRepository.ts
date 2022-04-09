@@ -3,6 +3,7 @@ import { errors } from '../constants/errorMessages'
 import Device from '../entities/Device'
 import Sensor from '../entities/Sensor'
 import User from '../entities/User'
+import prismaUserAdapter from './adapters/prismaUserAdapter'
 import { IUserFindingCriterias } from './interfaces/user/IUserFindingCriterias'
 import { IUserRepository } from './interfaces/user/IUserRepository'
 
@@ -32,7 +33,7 @@ export default class PrismaUserRepository implements IUserRepository {
             })
 
             // ToDo: Return user devices as well
-            if (user) return new User(user)
+            if (user) return prismaUserAdapter(user)
 
         } catch (error) {
             throw new Error(errors.USER_NOT_FOUND)

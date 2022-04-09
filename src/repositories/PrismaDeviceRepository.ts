@@ -2,8 +2,7 @@ import { PrismaClient } from '@prisma/client'
 import { errors } from '../constants/errorMessages'
 
 import Device from '../entities/Device'
-import Sensor from '../entities/Sensor'
-import User from '../entities/User'
+import prismaDeviceAdapter from './adapters/prismaDeviceAdapter'
 
 import { IDeviceFindingCriterias } from './interfaces/device/IDeviceFindingCriterias'
 import { IDeviceRepository } from './interfaces/device/IDeviceRepository'
@@ -31,8 +30,7 @@ export default class PrismaDeviceRepository implements IDeviceRepository {
             })
 
             if (device) {
-                const userId: string = device.userId || ""
-                return new Device({ ...device, userId })
+                return prismaDeviceAdapter(device)
             }
 
             return false
