@@ -58,11 +58,12 @@ export default class PrismaSensorRepository implements ISensorRepository {
     async getData(sensorId: string, page: number, day: Date): Promise<SensorData[] | false> {
         const perPage = 10
         const afterDay = new Date(day.getTime() + 86400000)
+        const skip = (page - 1) * perPage
 
         try {
             const sensorData = await this.prisma.sensorData.findMany({
                 take: perPage,
-                skip: page * perPage,
+                skip,
                 where: {
                     sensorId,
                     createdAt: {

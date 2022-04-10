@@ -124,7 +124,7 @@ export default class UserController {
 
     async getSensorData(req: Request, res: Response): Promise<Response | undefined> {
         const { deviceId, userId, sensorId } = req.params
-        const page = <string>req.query.page ?? '0'
+        const page = <string>req.query.page ?? '1'
         const day = <string>req.query.day ?? new Date().toString()
 
         try {
