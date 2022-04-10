@@ -1,4 +1,4 @@
-import Device from "../../entities/Device";
+import Device from '../../entities/Device'
 
 export interface IUserDTO {
     id?: string

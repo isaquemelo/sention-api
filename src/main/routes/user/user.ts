@@ -32,6 +32,10 @@ export default class UserRoutes {
             return userController.getSensorData(req, res)
         })
 
+        router.post('/user/devices/:deviceId/sensors/:sensorId/data', AuthenticationdMiddleware, (req, res) => {
+            return userController.saveSensorData(req, res)
+        })
+
         router.get('/user/devices/:deviceId/sensors/:sensorId', AuthenticationdMiddleware, (req, res) => {
             return userController.getSensor(req, res)
         })

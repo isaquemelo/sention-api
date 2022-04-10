@@ -9,4 +9,5 @@ export interface ISensorRepository {
     findOne(params: ISensorFindingCriterias): Promise<Sensor | false>;
     save(sensor: Sensor, deviceId: string): Promise<Sensor | false>;
     getData(sensorId: string, page: number, day: Date): Promise<SensorData[] | false>;
+    saveData(sensorData: SensorData, sensorId: string): Promise<SensorData | false>;
 }

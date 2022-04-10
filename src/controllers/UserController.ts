@@ -4,6 +4,7 @@ import { StatusCodes } from 'http-status-codes'
 
 import { IUserDTO } from '../useCases/interfaces/IUserDTO'
 import { ISensorDTO } from '../useCases/interfaces/ISensorDTO'
+import { ISensorDataDTO } from '../useCases/interfaces/ISensorDataDTO'
 
 import CreateUserUseCase from '../useCases/user/CreateUserUseCase'
 import GetUserUseCase from '../useCases/user/GetUserUseCase'
@@ -16,13 +17,15 @@ import GetDeviceUseCase from '../useCases/user/GetDeviceUseCase'
 import GetSensorUseCase from '../useCases/user/GetSensorUseCase'
 import CreateSensorUseCase from '../useCases/user/CreateSensorUseCase'
 import GetSensorDataUseCase from '../useCases/user/GetSensorDataUseCase'
+import CreateSensorDataUseCase from '../useCases/user/CreateSensorDataUseCase'
 
 export default class UserController {
     constructor(
         private createUserUseCase: CreateUserUseCase, private getUserUseCase: GetUserUseCase,
         private associateDeviceToUserUseCase: AssociateDeviceToUserUseCase, private dissociateDeviceUseCase: DissociateDeviceUseCase,
         private getDeviceUseCase: GetDeviceUseCase, private getSensorUseCase: GetSensorUseCase,
-        private createSensorUseCase: CreateSensorUseCase, private getSensorDataUseCase: GetSensorDataUseCase
+        private createSensorUseCase: CreateSensorUseCase, private getSensorDataUseCase: GetSensorDataUseCase,
+        private createSensorDataUseCase: CreateSensorDataUseCase
     ) { }
 
     async getUser(req: Request, res: Response): Promise<Response | undefined> {
@@ -131,6 +134,20 @@ export default class UserController {
             const sensorData = await this.getSensorDataUseCase.execute(sensorId, deviceId, userId, page, day)
 
             if (sensorData) return res.send(sensorData)
+            return res.status(StatusCodes.NOT_FOUND).send()
+        } catch (error) {
+            console.error(error)
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send()
+        }
+    }
+
+    async saveSensorData(req: Request, res: Response): Promise<Response | undefined> {
+        const { deviceId, userId, sensorId } = req.params
+        const body: ISensorDataDTO = req.body
+
+        try {
+            const sensorData = await this.createSensorDataUseCase.execute(body, deviceId, sensorId, userId)
+            if (sensorData) return res.status(StatusCodes.CREATED).send(sensorData)
             return res.status(StatusCodes.NOT_FOUND).send()
         } catch (error) {
             console.error(error)

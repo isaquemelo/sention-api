@@ -55,6 +55,24 @@ export default class PrismaSensorRepository implements ISensorRepository {
         return false
     }
 
+    async saveData(sensorData: SensorData, sensorId: string): Promise<SensorData | false> {
+        try {
+            const data = await this.prisma.sensorData.create({
+                data: {
+                    sensorId,
+                    ...sensorData,
+                }
+            })
+
+            if (data) return sensorData
+        } catch (error) {
+            console.log('error', error)
+            throw new Error(errors.COULD_NOT_SAVE_SENSOR_DATA)
+        }
+
+        return false
+    }
+
     async getData(sensorId: string, page: number, day: Date): Promise<SensorData[] | false> {
         const perPage = 10
         const afterDay = new Date(day.getTime() + 86400000)
@@ -75,7 +93,6 @@ export default class PrismaSensorRepository implements ISensorRepository {
 
             if (sensorData) return sensorData.map((occurrence): SensorData => prismaSensorDataAdapter(occurrence))
         } catch (error) {
-            console.error(error)
             throw new Error(errors.COULD_NOT_SAVE_SENSOR)
         }
 
