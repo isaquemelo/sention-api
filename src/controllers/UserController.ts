@@ -3,21 +3,26 @@ import { Request, Response } from 'express'
 import { StatusCodes } from 'http-status-codes'
 
 import { IUserDTO } from '../useCases/interfaces/IUserDTO'
+import { ISensorDTO } from '../useCases/interfaces/ISensorDTO'
 
 import CreateUserUseCase from '../useCases/user/CreateUserUseCase'
 import GetUserUseCase from '../useCases/user/GetUserUseCase'
+
 import AssociateDeviceToUserUseCase from '../useCases/user/AssociateDeviceToUserUseCase'
 import DissociateDeviceUseCase from '../useCases/user/DissociateDeviceUseCase'
+
 import GetDeviceUseCase from '../useCases/user/GetDeviceUseCase'
+
 import GetSensorUseCase from '../useCases/user/GetSensorUseCase'
-import { ISensorDTO } from '../useCases/interfaces/ISensorDTO'
 import CreateSensorUseCase from '../useCases/user/CreateSensorUseCase'
+import GetSensorDataUseCase from '../useCases/user/GetSensorDataUseCase'
 
 export default class UserController {
     constructor(
         private createUserUseCase: CreateUserUseCase, private getUserUseCase: GetUserUseCase,
         private associateDeviceToUserUseCase: AssociateDeviceToUserUseCase, private dissociateDeviceUseCase: DissociateDeviceUseCase,
-        private getDeviceUseCase: GetDeviceUseCase, private getSensorUseCase: GetSensorUseCase, private createSensorUseCase: CreateSensorUseCase
+        private getDeviceUseCase: GetDeviceUseCase, private getSensorUseCase: GetSensorUseCase,
+        private createSensorUseCase: CreateSensorUseCase, private getSensorDataUseCase: GetSensorDataUseCase
     ) { }
 
     async getUser(req: Request, res: Response): Promise<Response | undefined> {
@@ -115,7 +120,21 @@ export default class UserController {
             console.error(error)
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send()
         }
+    }
 
-        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send()
+    async getSensorData(req: Request, res: Response): Promise<Response | undefined> {
+        const { deviceId, userId, sensorId } = req.params
+        const page = <string>req.query.page ?? '0'
+        const day = <string>req.query.day ?? new Date().toString()
+
+        try {
+            const sensorData = await this.getSensorDataUseCase.execute(sensorId, deviceId, userId, page, day)
+
+            if (sensorData) return res.send(sensorData)
+            return res.status(StatusCodes.NOT_FOUND).send()
+        } catch (error) {
+            console.error(error)
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send()
+        }
     }
 }

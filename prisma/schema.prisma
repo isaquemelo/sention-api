@@ -49,10 +49,11 @@ model NotificationTrigger {
 }
 
 model SensorData {
-  id       String @id @default(uuid())
-  data     Json
-  sensor   Sensor @relation(fields: [sensorId], references: [id])
-  sensorId String
+  id        String   @id @default(uuid())
+  data      Json
+  sensor    Sensor   @relation(fields: [sensorId], references: [id])
+  sensorId  String
+  createdAt DateTime @default(now())
 }
 
 model Actuator {

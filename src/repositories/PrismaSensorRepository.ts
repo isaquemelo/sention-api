@@ -3,12 +3,13 @@ import { errors } from '../constants/errorMessages'
 
 import Device from '../entities/Device'
 import Sensor from '../entities/Sensor'
-import User from '../entities/User'
+import SensorData from '../entities/SensorData'
 
 import { ISensorFindingCriterias } from './interfaces/sensor/ISensorFindingCriterias'
 import { ISensorRepository } from './interfaces/sensor/ISensorRepository'
 
 import prismaSensorAdapter from './adapters/prismaSensorAdapter'
+import prismaSensorDataAdapter from './adapters/prismaSensorDataAdapter'
 
 export default class PrismaSensorRepository implements ISensorRepository {
     private prisma: PrismaClient = new PrismaClient()
@@ -48,6 +49,32 @@ export default class PrismaSensorRepository implements ISensorRepository {
 
             if (savedSensor) return new Sensor({ ...sensor, id: savedSensor.id })
         } catch (error) {
+            throw new Error(errors.COULD_NOT_SAVE_SENSOR)
+        }
+
+        return false
+    }
+
+    async getData(sensorId: string, page: number, day: Date): Promise<SensorData[] | false> {
+        const perPage = 10
+        const afterDay = new Date(day.getTime() + 86400000)
+
+        try {
+            const sensorData = await this.prisma.sensorData.findMany({
+                take: perPage,
+                skip: page * perPage,
+                where: {
+                    sensorId,
+                    createdAt: {
+                        gte: day,
+                        lte: afterDay,
+                    }
+                }
+            })
+
+            if (sensorData) return sensorData.map((occurrence): SensorData => prismaSensorDataAdapter(occurrence))
+        } catch (error) {
+            console.error(error)
             throw new Error(errors.COULD_NOT_SAVE_SENSOR)
         }
 

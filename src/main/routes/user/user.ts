@@ -28,6 +28,10 @@ export default class UserRoutes {
             return userController.dissociateDevice(req, res)
         })
 
+        router.get('/user/devices/:deviceId/sensors/:sensorId/data', AuthenticationdMiddleware, (req, res) => {
+            return userController.getSensorData(req, res)
+        })
+
         router.get('/user/devices/:deviceId/sensors/:sensorId', AuthenticationdMiddleware, (req, res) => {
             return userController.getSensor(req, res)
         })
