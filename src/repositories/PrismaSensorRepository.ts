@@ -55,6 +55,22 @@ export default class PrismaSensorRepository implements ISensorRepository {
         return false
     }
 
+    async delete(sensorId: string): Promise<boolean>{
+        try{
+
+            await this.prisma.sensor.delete({
+                where: {
+                    id: sensorId
+                }
+            })
+            
+            return true
+
+        } catch (error) {
+            throw new Error(errors.COULD_NOT_DELETE_SENSOR)
+        }
+    }
+
     async saveData(sensorData: SensorData, sensorId: string): Promise<SensorData | false> {
         try {
             const data = await this.prisma.sensorData.create({

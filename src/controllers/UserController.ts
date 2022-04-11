@@ -18,6 +18,7 @@ import GetSensorUseCase from '../useCases/user/GetSensorUseCase'
 import CreateSensorUseCase from '../useCases/user/CreateSensorUseCase'
 import GetSensorDataUseCase from '../useCases/user/GetSensorDataUseCase'
 import CreateSensorDataUseCase from '../useCases/user/CreateSensorDataUseCase'
+import DeleteSensorUseCase from '../useCases/user/DeleteSensorUseCase'
 
 export default class UserController {
     constructor(
@@ -25,7 +26,7 @@ export default class UserController {
         private associateDeviceToUserUseCase: AssociateDeviceToUserUseCase, private dissociateDeviceUseCase: DissociateDeviceUseCase,
         private getDeviceUseCase: GetDeviceUseCase, private getSensorUseCase: GetSensorUseCase,
         private createSensorUseCase: CreateSensorUseCase, private getSensorDataUseCase: GetSensorDataUseCase,
-        private createSensorDataUseCase: CreateSensorDataUseCase
+        private createSensorDataUseCase: CreateSensorDataUseCase, private deleteSensorUseCase: DeleteSensorUseCase
     ) { }
 
     async getUser(req: Request, res: Response): Promise<Response | undefined> {
@@ -149,6 +150,20 @@ export default class UserController {
             const sensorData = await this.createSensorDataUseCase.execute(body, deviceId, sensorId, userId)
             if (sensorData) return res.status(StatusCodes.CREATED).send(sensorData)
             return res.status(StatusCodes.NOT_FOUND).send()
+        } catch (error) {
+            console.error(error)
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send()
+        }
+    }
+
+    async deleteSensor(req: Request, res: Response): Promise<Response | undefined> {
+        const { deviceId, sensorId, userId} = req.params
+
+        try {
+            const allowed = await this.deleteSensorUseCase.execute(sensorId, deviceId, userId)
+            if (!allowed) return res.status(StatusCodes.UNAUTHORIZED).send()
+
+            return res.status(StatusCodes.CREATED).send()
         } catch (error) {
             console.error(error)
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send()
