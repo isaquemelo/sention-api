@@ -1,6 +1,3 @@
-import actuatorActions from "./enums/actuatorActions";
-import logicOperators from "./enums/logicOperators";
-
 export default class ActuatorTrigger {
     id: string
     name: string

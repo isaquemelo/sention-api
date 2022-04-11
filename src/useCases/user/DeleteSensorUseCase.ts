@@ -17,6 +17,7 @@ export default class DeleteSensorUseCase {
             return false
         }
 
+
         return await this.sensorRepository.delete(sensorId)
 
     }
