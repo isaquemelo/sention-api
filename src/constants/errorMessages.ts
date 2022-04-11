@@ -5,6 +5,7 @@ export const errors = {
     ACTUATOR_NOT_FOUND: 'Actuator not found.',
     COULD_NOT_SAVE_USER: 'User could not be saved.',
     COULD_NOT_SAVE_SENSOR: 'Sensor could not be saved.',
+    COULD_NOT_DELETE_SENSOR: 'Sensor could not be deleted.',
     COULD_NOT_SAVE_SENSOR_DATA: 'Sensor data could not be saved.',
     AUTH_TOKEN_NOT_PRESENT: 'Auth token was not provided.',
     TOKEN_ERROR: 'Token error.',
