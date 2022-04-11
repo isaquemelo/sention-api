@@ -1,6 +1,3 @@
-import actuatorActions from "./enums/actuatorActions";
-import logicOperators from "./enums/logicOperators";
-
 export default class ActuatorTrigger {
     id: string
     name: string
@@ -9,5 +6,7 @@ export default class ActuatorTrigger {
     value: number
     description: string
 
-    constructor(props: ActuatorTrigger) { }
+    constructor(props: ActuatorTrigger) {
+        Object.assign(this, props)
+    }
 }

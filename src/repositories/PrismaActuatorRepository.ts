@@ -51,4 +51,20 @@ export default class PrismaActuatorRepository implements IActuatorRepository {
 
         return false
     }
+
+    async delete(actuatorId: string): Promise<boolean> {
+        try {
+
+            await this.prisma.actuator.delete({
+                where: {
+                    id: actuatorId
+                }
+            })
+
+            return true
+
+        } catch (error) {
+            throw new Error(errors.COULD_NOT_DELETE_ACTUATOR)
+        }
+    }
 }

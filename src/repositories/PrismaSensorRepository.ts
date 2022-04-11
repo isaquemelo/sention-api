@@ -55,15 +55,15 @@ export default class PrismaSensorRepository implements ISensorRepository {
         return false
     }
 
-    async delete(sensorId: string): Promise<boolean>{
-        try{
+    async delete(sensorId: string): Promise<boolean> {
+        try {
 
             await this.prisma.sensor.delete({
                 where: {
                     id: sensorId
                 }
             })
-            
+
             return true
 
         } catch (error) {
