@@ -7,14 +7,6 @@ export default class DeleteSensorUseCase {
 
     async execute(sensorId: string, deviceId: string, userId: string): Promise<boolean> {
 
-        // Find sensor
-        const sensor = await this.sensorRepository.findOne({
-            id: sensorId
-        })
-
-        // Sensor not found
-        if (!sensor) return false
-        
         // Find the current device
         const device = await this.deviceRepository.findOne({
             id: deviceId
@@ -25,13 +17,8 @@ export default class DeleteSensorUseCase {
             return false
         }
 
-        if (sensor.id){
-            return await this.sensorRepository.delete(sensor.id)
-        }
+        return await this.sensorRepository.delete(sensorId)
 
-        return false
-        
-        
     }
 
 }

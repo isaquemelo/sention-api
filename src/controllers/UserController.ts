@@ -92,7 +92,7 @@ export default class UserController {
             const allowed = await this.dissociateDeviceUseCase.execute(deviceId, userId)
             if (!allowed) return res.status(StatusCodes.UNAUTHORIZED).send()
 
-            return res.status(StatusCodes.CREATED).send()
+            return res.send()
         } catch (error) {
             console.error(error)
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send()
@@ -163,7 +163,7 @@ export default class UserController {
             const allowed = await this.deleteSensorUseCase.execute(sensorId, deviceId, userId)
             if (!allowed) return res.status(StatusCodes.UNAUTHORIZED).send()
 
-            return res.status(StatusCodes.CREATED).send()
+            return res.send()
         } catch (error) {
             console.error(error)
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send()
