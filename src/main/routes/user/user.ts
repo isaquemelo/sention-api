@@ -64,6 +64,10 @@ export default class UserRoutes {
             return userController.deleteActuator(req, res)
         })
 
+        router.put('/user/devices/:deviceId/actuators/:actuatorId', AuthenticationdMiddleware, (req, res) => {
+            return userController.updateActuator(req, res)
+        })
+
         router.post('/user/devices/:deviceId/actuators/:actuatorId/trigger', AuthenticationdMiddleware, (req, res) => {
             return userController.saveActuatorTrigger(req, res)
         })
