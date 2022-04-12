@@ -8,6 +8,7 @@ import { IActuatorRepository } from './interfaces/actuator/IActuatorRepository'
 import { IActuatorFindingCriterias } from './interfaces/actuator/IActuatorFindingCriterias'
 
 import prismaActuatorAdapter from './adapters/prismaActuatorAdapter'
+import ActuatorTrigger from '../entities/ActuatorTrigger'
 
 export default class PrismaActuatorRepository implements IActuatorRepository {
     private prisma: PrismaClient = new PrismaClient()
@@ -64,6 +65,41 @@ export default class PrismaActuatorRepository implements IActuatorRepository {
             return true
 
         } catch (error) {
+            throw new Error(errors.COULD_NOT_DELETE_ACTUATOR)
+        }
+    }
+
+    async saveTrigger(trigger: ActuatorTrigger, actuatorId: string): Promise<ActuatorTrigger | false> {
+        try {
+            const savedActuator = await this.prisma.actuatorTrigger.create({
+                data: {
+                    actuatorId,
+                    ...trigger,
+                }
+            })
+
+            if (savedActuator) return new ActuatorTrigger({ ...trigger, id: savedActuator.id })
+        } catch (error) {
+            throw new Error(errors.COULD_NOT_SAVE_SENSOR)
+        }
+
+        return false
+    }
+
+    async deleteTrigger(triggerId: string): Promise<boolean> {
+        console.log('triggerId', triggerId)
+        try {
+
+            await this.prisma.actuatorTrigger.delete({
+                where: {
+                    id: triggerId
+                }
+            })
+
+            return true
+
+        } catch (error) {
+            console.log('err', error)
             throw new Error(errors.COULD_NOT_DELETE_ACTUATOR)
         }
     }

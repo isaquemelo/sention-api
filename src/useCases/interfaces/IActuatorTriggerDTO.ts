@@ -1,12 +1,8 @@
-export default class ActuatorTrigger {
+export interface IActuatorTriggerDTO {
     id?: string
     name: string
     action: string
     logicOperator: string
     value: number
     description: string
-
-    constructor(props: ActuatorTrigger) {
-        Object.assign(this, props)
-    }
 }

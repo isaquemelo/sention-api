@@ -1,7 +1,5 @@
 import { PrismaClient } from '@prisma/client'
 import { errors } from '../constants/errorMessages'
-import Device from '../entities/Device'
-import Sensor from '../entities/Sensor'
 import User from '../entities/User'
 import prismaUserAdapter from './adapters/prismaUserAdapter'
 import { IUserFindingCriterias } from './interfaces/user/IUserFindingCriterias'
@@ -12,8 +10,9 @@ export default class PrismaUserRepository implements IUserRepository {
     private prisma: PrismaClient = new PrismaClient()
 
     async findOne(params: IUserFindingCriterias): Promise<User | false> {
+        console.log('params', params)
         try {
-            const user = await this.prisma.user.findUnique({
+            const user = await this.prisma.user.findFirst({
                 where: {
                     ...params,
                 },

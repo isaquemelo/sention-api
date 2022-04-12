@@ -63,5 +63,13 @@ export default class UserRoutes {
         router.delete('/user/devices/:deviceId/actuators/:actuatorId', AuthenticationdMiddleware, (req, res) => {
             return userController.deleteActuator(req, res)
         })
+
+        router.post('/user/devices/:deviceId/actuators/:actuatorId/trigger', AuthenticationdMiddleware, (req, res) => {
+            return userController.saveActuatorTrigger(req, res)
+        })
+
+        router.delete('/user/devices/:deviceId/actuators/:actuatorId/trigger/:triggerId', AuthenticationdMiddleware, (req, res) => {
+            return userController.deleteActuatorTrigger(req, res)
+        })
     }
 }

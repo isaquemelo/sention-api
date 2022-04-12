@@ -1,4 +1,5 @@
 export interface IUserFindingCriterias {
     id?: string,
-    email?: string
+    email?: string,
+    devices?: object,
 }

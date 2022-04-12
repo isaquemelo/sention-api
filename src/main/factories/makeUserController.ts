@@ -23,6 +23,9 @@ import DeleteActuatorUseCase from '../../useCases/user/DeleteActuatorUseCase'
 
 import PrismaActuatorRepository from '../../repositories/PrismaActuatorRepository'
 
+import CreateActuatorTriggerUseCase from '../../useCases/user/CreateActuatorTriggerUseCase'
+import DeleteActuatorTriggerUseCase from '../../useCases/user/DeleteActuatorTriggerUseCase'
+
 const makeUserController = (): UserController => {
     const prismaUserStorage = new PrismaUserRepository()
     const prismaDeviceStorage = new PrismaDeviceRepository()
@@ -48,6 +51,9 @@ const makeUserController = (): UserController => {
     const createActuatorUseCase = new CreateActuatorUseCase(prismaActuatorStorage, prismaDeviceStorage)
     const deleteActuatorUseCase = new DeleteActuatorUseCase(prismaActuatorStorage, prismaDeviceStorage)
 
+    const createActuatorTriggerUseCase = new CreateActuatorTriggerUseCase(prismaActuatorStorage, prismaUserStorage)
+    const deleteActuatorTriggerUseCase = new DeleteActuatorTriggerUseCase(prismaActuatorStorage, prismaUserStorage)
+
 
     return new UserController(
         createUserUseCase, getUserUseCase,
@@ -55,6 +61,7 @@ const makeUserController = (): UserController => {
         getDeviceUseCase, getSensorUseCase, createSensorUseCase,
         getSensorDataUseCase, createSensorDataUseCase, deleteSensorUseCase,
         createActuatorUseCase, deleteActuatorUseCase,
+        createActuatorTriggerUseCase, deleteActuatorTriggerUseCase
     )
 }
 
