@@ -47,6 +47,10 @@ export default class UserRoutes {
         router.delete('/user/devices/:deviceId/sensors/:sensorId', AuthenticationdMiddleware, (req, res) => {
             return userController.deleteSensor(req, res)
         })
+
+        router.put('/user/devices/:deviceId/sensors/:sensorId', AuthenticationdMiddleware, (req, res) => {
+            return userController.updateSensor(req, res)
+        })
         
     }
 }

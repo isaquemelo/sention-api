@@ -12,6 +12,7 @@ import CreateSensorUseCase from '../../useCases/user/CreateSensorUseCase'
 import GetSensorDataUseCase from '../../useCases/user/GetSensorDataUseCase'
 import CreateSensorDataUseCase from '../../useCases/user/CreateSensorDataUseCase'
 import DeleteSensorUseCase from '../../useCases/user/DeleteSensorUseCase'
+import UpdateSensorUseCase from '../../useCases/user/UpdateSensorUseCase'
 
 
 const makeUserController = (): UserController => {
@@ -30,6 +31,7 @@ const makeUserController = (): UserController => {
     const getSensorUseCase = new GetSensorUseCase(prismaSensorStorage, prismaDeviceStorage)
     const createSensorUseCase = new CreateSensorUseCase(prismaSensorStorage, prismaDeviceStorage)
     const deleteSensorUseCase = new DeleteSensorUseCase(prismaSensorStorage, prismaDeviceStorage)
+    const updateSensorUseCase = new UpdateSensorUseCase(prismaSensorStorage, prismaDeviceStorage)
 
     const getSensorDataUseCase = new GetSensorDataUseCase(prismaSensorStorage, prismaDeviceStorage)
 
@@ -40,7 +42,8 @@ const makeUserController = (): UserController => {
         createUserUseCase, getUserUseCase,
         associateDeviceToUserUseCase, dissociateDeviceUseCase,
         getDeviceUseCase, getSensorUseCase, createSensorUseCase,
-        getSensorDataUseCase, createSensorDataUseCase, deleteSensorUseCase
+        deleteSensorUseCase, updateSensorUseCase,
+        getSensorDataUseCase, createSensorDataUseCase
     )
 }
 
