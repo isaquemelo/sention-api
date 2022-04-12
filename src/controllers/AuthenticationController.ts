@@ -1,6 +1,11 @@
 import { Request, Response } from 'express'
-import { StatusCodes } from 'http-status-codes';
-import AuthenticateUserUseCase from '../useCases/authetication/AutheticateUserUseCase';
+
+import { StatusCodes } from 'http-status-codes'
+
+import AuthenticateUserUseCase from '../useCases/authetication/AutheticateUserUseCase'
+
+
+
 
 
 export default class AuthenticationController {
@@ -15,9 +20,7 @@ export default class AuthenticationController {
 
             return res.status(StatusCodes.UNAUTHORIZED).send()
         } catch (error) {
-            console.error(error)
             return res.status(StatusCodes.NOT_FOUND).send()
         }
-
     }
 }

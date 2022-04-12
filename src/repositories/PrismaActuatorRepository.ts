@@ -87,7 +87,6 @@ export default class PrismaActuatorRepository implements IActuatorRepository {
     }
 
     async deleteTrigger(triggerId: string): Promise<boolean> {
-        console.log('triggerId', triggerId)
         try {
 
             await this.prisma.actuatorTrigger.delete({
@@ -99,7 +98,6 @@ export default class PrismaActuatorRepository implements IActuatorRepository {
             return true
 
         } catch (error) {
-            console.log('err', error)
             throw new Error(errors.COULD_NOT_DELETE_ACTUATOR)
         }
     }

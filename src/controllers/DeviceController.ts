@@ -12,7 +12,6 @@ export default class DeviceController {
             if (!device) return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send()
             return res.send(device)
         } catch (error) {
-            console.error(error)
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send()
         }
     }
