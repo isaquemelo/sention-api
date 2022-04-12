@@ -1,4 +1,3 @@
-
 import { Request, Response } from 'express'
 import { StatusCodes } from 'http-status-codes'
 
@@ -21,6 +20,7 @@ import CreateSensorUseCase from '../useCases/user/CreateSensorUseCase'
 import GetSensorDataUseCase from '../useCases/user/GetSensorDataUseCase'
 import CreateSensorDataUseCase from '../useCases/user/CreateSensorDataUseCase'
 import DeleteSensorUseCase from '../useCases/user/DeleteSensorUseCase'
+import UpdateSensorUseCase from '../useCases/user/UpdateSensorUseCase'
 
 import DeleteActuatorUseCase from '../useCases/user/DeleteActuatorUseCase'
 import CreateActuatorUseCase from '../useCases/user/CreateActuatorUseCase'
@@ -37,8 +37,8 @@ export default class UserController {
         private createSensorUseCase: CreateSensorUseCase, private getSensorDataUseCase: GetSensorDataUseCase,
         private createSensorDataUseCase: CreateSensorDataUseCase, private deleteSensorUseCase: DeleteSensorUseCase,
         private createActuatorUseCase: CreateActuatorUseCase, private deleteActuatorUseCase: DeleteActuatorUseCase,
-        private updateActuatorUseCase: UpdateActuatorUseCase,
         private createActuatorTriggerUseCase: CreateActuatorTriggerUseCase, private deleteActuatorTriggerUseCase: DeleteActuatorTriggerUseCase,
+        private updateSensorUseCase: UpdateSensorUseCase, private updateActuatorUseCase: UpdateActuatorUseCase,
     ) { }
 
     async getUser(req: Request, res: Response): Promise<Response | undefined> {
@@ -167,6 +167,33 @@ export default class UserController {
         }
     }
 
+    async deleteSensor(req: Request, res: Response): Promise<Response | undefined> {
+        const { deviceId, sensorId, userId } = req.params
+
+        try {
+            const allowed = await this.deleteSensorUseCase.execute(sensorId, deviceId, userId)
+            if (!allowed) return res.status(StatusCodes.UNAUTHORIZED).send()
+            return res.send()
+        } catch (error) {
+            console.error(error)
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send()
+        }
+    }
+
+    async updateSensor(req: Request, res: Response): Promise<Response | undefined> {
+        const { deviceId, sensorId, userId } = req.params
+        const body: ISensorDTO = req.body
+
+        try {
+            const sensor = await this.updateSensorUseCase.execute(body, sensorId, deviceId, userId)
+            if (sensor) return res.status(StatusCodes.CREATED).send(sensor)
+            return res.status(StatusCodes.UNAUTHORIZED).send()
+        } catch (error) {
+            console.error(error)
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send()
+        }
+    }
+
     async getSensorData(req: Request, res: Response): Promise<Response | undefined> {
         const { deviceId, userId, sensorId } = req.params
         const page = <string>req.query.page ?? '1'
@@ -191,20 +218,6 @@ export default class UserController {
             const sensorData = await this.createSensorDataUseCase.execute(body, deviceId, sensorId, userId)
             if (sensorData) return res.status(StatusCodes.CREATED).send(sensorData)
             return res.status(StatusCodes.NOT_FOUND).send()
-        } catch (error) {
-            console.error(error)
-            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send()
-        }
-    }
-
-    async deleteSensor(req: Request, res: Response): Promise<Response | undefined> {
-        const { deviceId, sensorId, userId } = req.params
-
-        try {
-            const allowed = await this.deleteSensorUseCase.execute(sensorId, deviceId, userId)
-            if (!allowed) return res.status(StatusCodes.UNAUTHORIZED).send()
-
-            return res.send()
         } catch (error) {
             console.error(error)
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send()

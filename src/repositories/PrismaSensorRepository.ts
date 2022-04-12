@@ -10,6 +10,7 @@ import { ISensorRepository } from './interfaces/sensor/ISensorRepository'
 
 import prismaSensorAdapter from './adapters/prismaSensorAdapter'
 import prismaSensorDataAdapter from './adapters/prismaSensorDataAdapter'
+import { ISensorDTO } from '../useCases/interfaces/ISensorDTO'
 
 export default class PrismaSensorRepository implements ISensorRepository {
     private prisma: PrismaClient = new PrismaClient()
@@ -69,6 +70,26 @@ export default class PrismaSensorRepository implements ISensorRepository {
         } catch (error) {
             throw new Error(errors.COULD_NOT_DELETE_SENSOR)
         }
+    }
+
+    async update(sensorId: string, data: Sensor): Promise<Sensor | false>{
+        try {
+            const updatedSensor = await this.prisma.sensor.update({
+                where:{
+                    id: sensorId
+                }
+            ,data: {
+                name: data.name,
+                type: data.type,
+                port: data.port,
+            }
+        })
+            if (updatedSensor) return prismaSensorAdapter(updatedSensor)
+        } catch (error) {
+            throw new Error(errors.COULD_NOT_UPDATE_SENSOR)
+        }
+
+        return false
     }
 
     async saveData(sensorData: SensorData, sensorId: string): Promise<SensorData | false> {

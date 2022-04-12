@@ -1,5 +1,4 @@
 import ActuatorTrigger from './ActuatorTrigger'
-import actuatorTypes from './enums/actuatorTypes'
 
 export default class Actuator {
     id?: string
