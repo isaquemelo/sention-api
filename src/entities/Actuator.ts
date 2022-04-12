@@ -1,14 +1,14 @@
-import ActuatorTrigger from "./ActuatorTrigger";
-import actuatorTypes from "./enums/actuatorTypes";
+import ActuatorTrigger from './ActuatorTrigger'
 
 export default class Actuator {
-    id: string
+    id?: string
     name: string
     type: string
     port: number
-    triggers: ActuatorTrigger[]
+    triggers?: ActuatorTrigger[]
     createdAt?: Date
 
     constructor(props: Actuator) {
+        Object.assign(this, props)
     }
 }

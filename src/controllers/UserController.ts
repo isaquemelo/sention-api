@@ -5,6 +5,8 @@ import { StatusCodes } from 'http-status-codes'
 import { IUserDTO } from '../useCases/interfaces/IUserDTO'
 import { ISensorDTO } from '../useCases/interfaces/ISensorDTO'
 import { ISensorDataDTO } from '../useCases/interfaces/ISensorDataDTO'
+import { IActuatorDTO } from '../useCases/interfaces/IActuatorDTO'
+import { IActuatorTriggerDTO } from '../useCases/interfaces/IActuatorTriggerDTO'
 
 import CreateUserUseCase from '../useCases/user/CreateUserUseCase'
 import GetUserUseCase from '../useCases/user/GetUserUseCase'
@@ -21,14 +23,23 @@ import CreateSensorDataUseCase from '../useCases/user/CreateSensorDataUseCase'
 import DeleteSensorUseCase from '../useCases/user/DeleteSensorUseCase'
 import UpdateSensorUseCase from '../useCases/user/UpdateSensorUseCase'
 
+import DeleteActuatorUseCase from '../useCases/user/DeleteActuatorUseCase'
+import CreateActuatorUseCase from '../useCases/user/CreateActuatorUseCase'
+
+import CreateActuatorTriggerUseCase from '../useCases/user/CreateActuatorTriggerUseCase'
+import DeleteActuatorTriggerUseCase from '../useCases/user/DeleteActuatorTriggerUseCase'
+
+
 export default class UserController {
     constructor(
         private createUserUseCase: CreateUserUseCase, private getUserUseCase: GetUserUseCase,
         private associateDeviceToUserUseCase: AssociateDeviceToUserUseCase, private dissociateDeviceUseCase: DissociateDeviceUseCase,
         private getDeviceUseCase: GetDeviceUseCase, private getSensorUseCase: GetSensorUseCase,
-        private createSensorUseCase: CreateSensorUseCase, private deleteSensorUseCase: DeleteSensorUseCase, 
-        private updateSensorUseCase: UpdateSensorUseCase, private getSensorDataUseCase: GetSensorDataUseCase, 
-        private createSensorDataUseCase: CreateSensorDataUseCase
+        private createSensorUseCase: CreateSensorUseCase, private getSensorDataUseCase: GetSensorDataUseCase,
+        private createSensorDataUseCase: CreateSensorDataUseCase, private deleteSensorUseCase: DeleteSensorUseCase,
+        private updateSensorUseCase: UpdateSensorUseCase, private createActuatorUseCase: CreateActuatorUseCase, 
+        private deleteActuatorUseCase: DeleteActuatorUseCase, private createActuatorTriggerUseCase: CreateActuatorTriggerUseCase,
+        private deleteActuatorTriggerUseCase: DeleteActuatorTriggerUseCase,
     ) { }
 
     async getUser(req: Request, res: Response): Promise<Response | undefined> {
@@ -114,6 +125,20 @@ export default class UserController {
         }
     }
 
+    async saveActuator(req: Request, res: Response): Promise<Response | undefined> {
+        const { deviceId, userId } = req.params
+        const body: IActuatorDTO = req.body
+
+        try {
+            const actuator = await this.createActuatorUseCase.execute(body, deviceId, userId)
+            if (actuator) return res.status(StatusCodes.CREATED).send(actuator)
+            return res.status(StatusCodes.NOT_FOUND).send()
+        } catch (error) {
+            console.error(error)
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send()
+        }
+    }
+
     async saveSensor(req: Request, res: Response): Promise<Response | undefined> {
         const { deviceId, userId } = req.params
         const body: ISensorDTO = req.body
@@ -179,6 +204,48 @@ export default class UserController {
             const sensorData = await this.createSensorDataUseCase.execute(body, deviceId, sensorId, userId)
             if (sensorData) return res.status(StatusCodes.CREATED).send(sensorData)
             return res.status(StatusCodes.NOT_FOUND).send()
+        } catch (error) {
+            console.error(error)
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send()
+        }
+    }
+
+    async deleteActuator(req: Request, res: Response): Promise<Response | undefined> {
+        const { deviceId, actuatorId, userId } = req.params
+
+        try {
+            const allowed = await this.deleteActuatorUseCase.execute(actuatorId, deviceId, userId)
+            if (!allowed) return res.status(StatusCodes.UNAUTHORIZED).send()
+
+            return res.send()
+        } catch (error) {
+            console.error(error)
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send()
+        }
+    }
+
+    async deleteActuatorTrigger(req: Request, res: Response): Promise<Response | undefined> {
+        const { deviceId, triggerId, userId } = req.params
+
+        try {
+            const allowed = await this.deleteActuatorTriggerUseCase.execute(triggerId, userId)
+            if (!allowed) return res.status(StatusCodes.UNAUTHORIZED).send()
+
+            return res.send()
+        } catch (error) {
+            console.error(error)
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send()
+        }
+    }
+
+    async saveActuatorTrigger(req: Request, res: Response): Promise<Response | undefined> {
+        const { deviceId, actuatorId, userId } = req.params
+        const body: IActuatorTriggerDTO = req.body
+
+        try {
+            const actuatorTrigger = await this.createActuatorTriggerUseCase.execute(body, actuatorId, userId)
+            if (actuatorTrigger) return res.status(StatusCodes.CREATED).send(actuatorTrigger)
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send()
         } catch (error) {
             console.error(error)
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send()

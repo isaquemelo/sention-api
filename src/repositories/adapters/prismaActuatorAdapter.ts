@@ -1,7 +1,7 @@
-import Actuator from "../../entities/Actuator";
-import { Prisma } from "@prisma/client";
-import prismaTriggerAdapter from "./prismaTriggerAdapter";
-import ActuatorTrigger from "../../entities/ActuatorTrigger";
+import Actuator from '../../entities/Actuator'
+import { Prisma } from '@prisma/client'
+import prismaTriggerAdapter from './prismaTriggerAdapter'
+import ActuatorTrigger from '../../entities/ActuatorTrigger'
 
 type prismaActuatorWithRelations = Prisma.ActuatorGetPayload<{
     include: {

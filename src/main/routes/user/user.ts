@@ -44,6 +44,10 @@ export default class UserRoutes {
             return userController.saveSensor(req, res)
         })
 
+        router.post('/user/devices/:deviceId/sensors/', AuthenticationdMiddleware, (req, res) => {
+            return userController.saveSensor(req, res)
+        })
+
         router.delete('/user/devices/:deviceId/sensors/:sensorId', AuthenticationdMiddleware, (req, res) => {
             return userController.deleteSensor(req, res)
         })
@@ -51,6 +55,25 @@ export default class UserRoutes {
         router.put('/user/devices/:deviceId/sensors/:sensorId', AuthenticationdMiddleware, (req, res) => {
             return userController.updateSensor(req, res)
         })
-        
+
+        router.delete('/user/devices/:deviceId/sensors/:sensorId', AuthenticationdMiddleware, (req, res) => {
+            return userController.deleteSensor(req, res)
+        })
+
+        router.post('/user/devices/:deviceId/actuators', AuthenticationdMiddleware, (req, res) => {
+            return userController.saveActuator(req, res)
+        })
+
+        router.delete('/user/devices/:deviceId/actuators/:actuatorId', AuthenticationdMiddleware, (req, res) => {
+            return userController.deleteActuator(req, res)
+        })
+
+        router.post('/user/devices/:deviceId/actuators/:actuatorId/trigger', AuthenticationdMiddleware, (req, res) => {
+            return userController.saveActuatorTrigger(req, res)
+        })
+
+        router.delete('/user/devices/:deviceId/actuators/:actuatorId/trigger/:triggerId', AuthenticationdMiddleware, (req, res) => {
+            return userController.deleteActuatorTrigger(req, res)
+        })
     }
 }
