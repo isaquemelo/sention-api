@@ -4,10 +4,6 @@ import { StatusCodes } from 'http-status-codes'
 
 import AuthenticateUserUseCase from '../useCases/authetication/AutheticateUserUseCase'
 
-
-
-
-
 export default class AuthenticationController {
     constructor(private authenticateUserUseCase: AuthenticateUserUseCase) { }
 

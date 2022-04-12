@@ -24,6 +24,7 @@ import UpdateSensorUseCase from '../useCases/user/UpdateSensorUseCase'
 
 import DeleteActuatorUseCase from '../useCases/user/DeleteActuatorUseCase'
 import CreateActuatorUseCase from '../useCases/user/CreateActuatorUseCase'
+import UpdateActuatorUseCase from '../useCases/user/UpdateActuatorUseCase'
 
 import CreateActuatorTriggerUseCase from '../useCases/user/CreateActuatorTriggerUseCase'
 import DeleteActuatorTriggerUseCase from '../useCases/user/DeleteActuatorTriggerUseCase'
@@ -143,9 +144,8 @@ export default class UserController {
         const body: IActuatorDTO = req.body
 
         try {
-            const allowed = await this.updateActuatorUseCase.execute(body, actuatorId, userId)
-            if (allowed) return res.status(StatusCodes.CREATED).send(body)
-
+            const actuator = await this.updateActuatorUseCase.execute(body, actuatorId, userId)
+            if (actuator) return res.send(actuator)
             return res.status(StatusCodes.UNAUTHORIZED).send()
         } catch (error) {
             console.error(error)

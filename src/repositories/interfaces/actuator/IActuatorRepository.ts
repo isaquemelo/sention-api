@@ -6,6 +6,7 @@ import { IActuatorFindingCriterias } from './IActuatorFindingCriterias'
 export interface IActuatorRepository {
     findOne(params: IActuatorFindingCriterias): Promise<Actuator | false>;
     save(actuator: Actuator, deviceId: string): Promise<Actuator | false>;
+    update(actuator: Actuator): Promise<Actuator | false>;
     delete(sensorId: string): Promise<boolean>;
 
     saveTrigger(trigger: ActuatorTrigger, actuatorId: string): Promise<ActuatorTrigger | false>;
