@@ -10,7 +10,6 @@ export default class PrismaUserRepository implements IUserRepository {
     private prisma: PrismaClient = new PrismaClient()
 
     async findOne(params: IUserFindingCriterias): Promise<User | false> {
-        console.log('params', params)
         try {
             const user = await this.prisma.user.findFirst({
                 where: {
