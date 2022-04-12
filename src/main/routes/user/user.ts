@@ -44,12 +44,16 @@ export default class UserRoutes {
             return userController.saveSensor(req, res)
         })
 
+        router.post('/user/devices/:deviceId/sensors/', AuthenticationdMiddleware, (req, res) => {
+            return userController.saveSensor(req, res)
+        })
+
         router.delete('/user/devices/:deviceId/sensors/:sensorId', AuthenticationdMiddleware, (req, res) => {
             return userController.deleteSensor(req, res)
         })
 
-        router.post('/user/devices/:deviceId/sensors/', AuthenticationdMiddleware, (req, res) => {
-            return userController.saveSensor(req, res)
+        router.put('/user/devices/:deviceId/sensors/:sensorId', AuthenticationdMiddleware, (req, res) => {
+            return userController.updateSensor(req, res)
         })
 
         router.delete('/user/devices/:deviceId/sensors/:sensorId', AuthenticationdMiddleware, (req, res) => {
