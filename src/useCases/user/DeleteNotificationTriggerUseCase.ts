@@ -30,8 +30,6 @@ export default class DeleteNotificationTriggerUseCase {
         if (!user) return false
 
         return await this.sensorsRepository.deleteNotificationTrigger(notificationTriggerId)
-
-        return false
     }
 
 }

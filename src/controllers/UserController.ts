@@ -303,8 +303,6 @@ export default class UserController {
     async deleteNotificationTrigger(req: Request, res: Response): Promise<Response | undefined> {
         const { deviceId, notificationTriggerId, userId } = req.params
 
-        console.log(req.params)
-
         try {
             const allowed = await this.deleteNotificationTriggerUseCase.execute(notificationTriggerId, userId)
             if (!allowed) return res.status(StatusCodes.UNAUTHORIZED).send()
