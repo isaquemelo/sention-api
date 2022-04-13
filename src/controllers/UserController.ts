@@ -178,7 +178,7 @@ export default class UserController {
         try {
             const sensor = await this.createSensorUseCase.execute(body, deviceId, userId)
             if (sensor) return res.status(StatusCodes.CREATED).send(sensor)
-            return res.status(StatusCodes.NOT_FOUND).send()
+            return res.status(StatusCodes.UNAUTHORIZED).send()
         } catch (error) {
             console.error(error)
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send()
