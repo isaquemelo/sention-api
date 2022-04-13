@@ -203,7 +203,7 @@ export default class UserController {
         const body: ISensorDTO = req.body
 
         try {
-            const sensor = await this.updateSensorUseCase.execute(body, sensorId, deviceId, userId)
+            const sensor = await this.updateSensorUseCase.execute(body, sensorId, userId)
             if (sensor) return res.status(StatusCodes.CREATED).send(sensor)
             return res.status(StatusCodes.UNAUTHORIZED).send()
         } catch (error) {
