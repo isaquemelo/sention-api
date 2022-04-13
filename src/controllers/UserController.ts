@@ -31,6 +31,7 @@ import UpdateActuatorUseCase from '../useCases/user/UpdateActuatorUseCase'
 import CreateActuatorTriggerUseCase from '../useCases/user/CreateActuatorTriggerUseCase'
 import DeleteActuatorTriggerUseCase from '../useCases/user/DeleteActuatorTriggerUseCase'
 import UpdateActuatorTriggerUseCase from '../useCases/user/UpdateActuatorTriggerUseCase'
+import DeleteNotificationTriggerUseCase from '../useCases/user/DeleteNotificationTriggerUseCase'
 
 
 export default class UserController {
@@ -43,7 +44,8 @@ export default class UserController {
         private createActuatorUseCase: CreateActuatorUseCase, private deleteActuatorUseCase: DeleteActuatorUseCase,
         private createActuatorTriggerUseCase: CreateActuatorTriggerUseCase, private deleteActuatorTriggerUseCase: DeleteActuatorTriggerUseCase,
         private updateSensorUseCase: UpdateSensorUseCase, private updateActuatorUseCase: UpdateActuatorUseCase,
-        private createNotificationTriggerUseCase: CreateNotificationTriggerUseCase, private updateActuatorTriggerUseCase: UpdateActuatorTriggerUseCase
+        private createNotificationTriggerUseCase: CreateNotificationTriggerUseCase, private updateActuatorTriggerUseCase: UpdateActuatorTriggerUseCase,
+        private deleteNotificationTriggerUseCase: DeleteNotificationTriggerUseCase
     ) { }
 
     async getUser(req: Request, res: Response): Promise<Response | undefined> {
@@ -292,6 +294,22 @@ export default class UserController {
             const notificationTrigger = await this.createNotificationTriggerUseCase.execute(body, sensorId, userId)
             if (notificationTrigger) return res.status(StatusCodes.CREATED).send(notificationTrigger)
             return res.status(StatusCodes.UNAUTHORIZED).send()
+        } catch (error) {
+            console.error(error)
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send()
+        }
+    }
+
+    async deleteNotificationTrigger(req: Request, res: Response): Promise<Response | undefined> {
+        const { deviceId, notificationTriggerId, userId } = req.params
+
+        console.log(req.params)
+
+        try {
+            const allowed = await this.deleteNotificationTriggerUseCase.execute(notificationTriggerId, userId)
+            if (!allowed) return res.status(StatusCodes.UNAUTHORIZED).send()
+
+            return res.send()
         } catch (error) {
             console.error(error)
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send()
