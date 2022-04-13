@@ -229,13 +229,13 @@ export default class UserController {
     }
 
     async saveSensorData(req: Request, res: Response): Promise<Response | undefined> {
-        const { deviceId, userId, sensorId } = req.params
+        const { userId, sensorId } = req.params
         const body: ISensorDataDTO = req.body
 
         try {
-            const sensorData = await this.createSensorDataUseCase.execute(body, deviceId, sensorId, userId)
+            const sensorData = await this.createSensorDataUseCase.execute(body, sensorId, userId)
             if (sensorData) return res.status(StatusCodes.CREATED).send(sensorData)
-            return res.status(StatusCodes.NOT_FOUND).send()
+            return res.status(StatusCodes.UNAUTHORIZED).send()
         } catch (error) {
             console.error(error)
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send()

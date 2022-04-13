@@ -1,15 +1,15 @@
 import SensorData from '../../entities/SensorData'
 
 import { ISensorRepository } from '../../repositories/interfaces/sensor/ISensorRepository'
-import { IDeviceRepository } from '../../repositories/interfaces/device/IDeviceRepository'
+import { IUserRepository } from '../../repositories/interfaces/user/IUserRepository'
 
 import { ISensorDataDTO } from '../interfaces/ISensorDataDTO'
 
 
 export default class CreateSensorDataUseCase {
-    constructor(private sensorRepository: ISensorRepository, private deviceRepository: IDeviceRepository) { }
+    constructor(private sensorRepository: ISensorRepository, private usersRepository: IUserRepository) { }
 
-    async execute(data: ISensorDataDTO, deviceId: string, sensorId: string, userId: string): Promise<SensorData | false> {
+    async execute(data: ISensorDataDTO, sensorId: string, userId: string): Promise<SensorData | false> {
         let date = new Date()
 
         if (data.timestamp) {
@@ -19,13 +19,22 @@ export default class CreateSensorDataUseCase {
 
         const sensorData = new SensorData({ ...data, createdAt: date })
 
-        // Finds the current device
-        const device = await this.deviceRepository.findOne({ id: deviceId })
+        // Checks if the current user is the owner of the inteded thing to be changed
+        const user = await this.usersRepository.findOne({
+            id: userId,
 
-        // Checks if the device belongs to the requesting user
-        if (device && device.userId !== userId) {
-            return false
-        }
+            devices: {
+                some: {
+                    sensors: {
+                        some: {
+                            id: sensorId
+                        }
+                    }
+                }
+            }
+        })
+
+        if (!user) return false
 
         // Save sensor data
         return await this.sensorRepository.saveData(sensorData, sensorId)
