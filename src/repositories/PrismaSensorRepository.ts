@@ -11,6 +11,7 @@ import { ISensorRepository } from './interfaces/sensor/ISensorRepository'
 import prismaSensorAdapter from './adapters/prismaSensorAdapter'
 import prismaSensorDataAdapter from './adapters/prismaSensorDataAdapter'
 import { ISensorDTO } from '../useCases/interfaces/ISensorDTO'
+import NotificationTrigger from '../entities/NotificationTrigger'
 
 export default class PrismaSensorRepository implements ISensorRepository {
     private prisma: PrismaClient = new PrismaClient()
@@ -135,4 +136,23 @@ export default class PrismaSensorRepository implements ISensorRepository {
 
         return false
     }
+
+    async saveNotificationTrigger(notificationTrigger: NotificationTrigger, sensorId: string): Promise<NotificationTrigger | false>{
+
+        try {
+            const savedSensor = await this.prisma.notificationTrigger.create({
+                data: {
+                    sensorId,
+                    ...notificationTrigger,
+                }
+            })
+
+            if (savedSensor) return new NotificationTrigger({ ...notificationTrigger, id: savedSensor.id })
+        } catch (error) {
+            throw new Error(errors.COULD_NOT_SAVE_NOTIFICATION_TRIGGER)
+        }
+        return false
+    }
+
+
 }
