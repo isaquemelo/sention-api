@@ -20,4 +20,5 @@ export const errors = {
     COULD_NOT_DISSOCIATE_DEVICE: 'The device could not be dissociated',
     COULD_NOT_FIND_SENSOR_DATA: 'The sensor data could not be found',
     COULD_NOT_UPDATE_ACTUATOR: 'Actuator could not be updated.',
+    COULD_NOT_UPDATE_ACTUATOR_TRIGGER: 'Actuator trigger could not be updated.',
 }

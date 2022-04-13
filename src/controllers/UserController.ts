@@ -6,6 +6,7 @@ import { ISensorDTO } from '../useCases/interfaces/ISensorDTO'
 import { ISensorDataDTO } from '../useCases/interfaces/ISensorDataDTO'
 import { IActuatorDTO } from '../useCases/interfaces/IActuatorDTO'
 import { IActuatorTriggerDTO } from '../useCases/interfaces/IActuatorTriggerDTO'
+import { INotificationTriggerDTO } from '../useCases/interfaces/INotificationTriggerDTO'
 
 import CreateUserUseCase from '../useCases/user/CreateUserUseCase'
 import GetUserUseCase from '../useCases/user/GetUserUseCase'
@@ -21,6 +22,7 @@ import GetSensorDataUseCase from '../useCases/user/GetSensorDataUseCase'
 import CreateSensorDataUseCase from '../useCases/user/CreateSensorDataUseCase'
 import DeleteSensorUseCase from '../useCases/user/DeleteSensorUseCase'
 import UpdateSensorUseCase from '../useCases/user/UpdateSensorUseCase'
+import CreateNotificationTriggerUseCase from '../useCases/user/CreateNotificationTriggerUseCase'
 
 import DeleteActuatorUseCase from '../useCases/user/DeleteActuatorUseCase'
 import CreateActuatorUseCase from '../useCases/user/CreateActuatorUseCase'
@@ -28,8 +30,7 @@ import UpdateActuatorUseCase from '../useCases/user/UpdateActuatorUseCase'
 
 import CreateActuatorTriggerUseCase from '../useCases/user/CreateActuatorTriggerUseCase'
 import DeleteActuatorTriggerUseCase from '../useCases/user/DeleteActuatorTriggerUseCase'
-import { INotificationTriggerDTO } from '../useCases/interfaces/INotificationTriggerDTO'
-import CreateNotificationTriggerUseCase from '../useCases/user/CreateNotificationTriggerUseCase'
+import UpdateActuatorTriggerUseCase from '../useCases/user/UpdateActuatorTriggerUseCase'
 
 
 export default class UserController {
@@ -42,7 +43,7 @@ export default class UserController {
         private createActuatorUseCase: CreateActuatorUseCase, private deleteActuatorUseCase: DeleteActuatorUseCase,
         private createActuatorTriggerUseCase: CreateActuatorTriggerUseCase, private deleteActuatorTriggerUseCase: DeleteActuatorTriggerUseCase,
         private updateSensorUseCase: UpdateSensorUseCase, private updateActuatorUseCase: UpdateActuatorUseCase,
-        private createNotificationTriggerUseCase: CreateNotificationTriggerUseCase
+        private createNotificationTriggerUseCase: CreateNotificationTriggerUseCase, private updateActuatorTriggerUseCase: UpdateActuatorTriggerUseCase
     ) { }
 
     async getUser(req: Request, res: Response): Promise<Response | undefined> {
@@ -149,6 +150,20 @@ export default class UserController {
         try {
             const actuator = await this.updateActuatorUseCase.execute(body, actuatorId, userId)
             if (actuator) return res.send(actuator)
+            return res.status(StatusCodes.UNAUTHORIZED).send()
+        } catch (error) {
+            console.error(error)
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send()
+        }
+    }
+
+    async updateActuatorTrigger(req: Request, res: Response): Promise<Response | undefined> {
+        const { triggerId, userId } = req.params
+        const body: IActuatorTriggerDTO = req.body
+
+        try {
+            const actuatorTrigger = await this.updateActuatorTriggerUseCase.execute(body, triggerId, userId)
+            if (actuatorTrigger) return res.send(actuatorTrigger)
             return res.status(StatusCodes.UNAUTHORIZED).send()
         } catch (error) {
             console.error(error)

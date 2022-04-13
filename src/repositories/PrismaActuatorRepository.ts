@@ -74,6 +74,25 @@ export default class PrismaActuatorRepository implements IActuatorRepository {
         return false
     }
 
+    async updateTrigger(trigger: ActuatorTrigger): Promise<false | ActuatorTrigger> {
+        try {
+            const updatedTrigger = await this.prisma.actuatorTrigger.update({
+                where: {
+                    id: trigger.id,
+                },
+                data: {
+                    ...trigger
+                }
+            })
+
+            if (updatedTrigger) return new ActuatorTrigger({ ...updatedTrigger })
+        } catch (error) {
+            throw new Error(errors.COULD_NOT_UPDATE_ACTUATOR_TRIGGER)
+        }
+
+        return false
+    }
+
     async delete(actuatorId: string): Promise<boolean> {
         try {
 

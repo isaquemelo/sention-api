@@ -10,5 +10,6 @@ export interface IActuatorRepository {
     delete(sensorId: string): Promise<boolean>;
 
     saveTrigger(trigger: ActuatorTrigger, actuatorId: string): Promise<ActuatorTrigger | false>;
+    updateTrigger(trigger: ActuatorTrigger): Promise<ActuatorTrigger | false>;
     deleteTrigger(triggerId: string): Promise<boolean>;
 }

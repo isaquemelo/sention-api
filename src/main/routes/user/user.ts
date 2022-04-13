@@ -60,6 +60,10 @@ export default class UserRoutes {
             return userController.deleteSensor(req, res)
         })
 
+        router.post('/user/devices/:deviceId/sensors/:sensorId/notificationTrigger', AuthenticationdMiddleware, (req, res) => {
+            return userController.saveNotificationTrigger(req, res)
+        })
+
         router.post('/user/devices/:deviceId/actuators', AuthenticationdMiddleware, (req, res) => {
             return userController.saveActuator(req, res)
         })
@@ -80,8 +84,8 @@ export default class UserRoutes {
             return userController.deleteActuatorTrigger(req, res)
         })
 
-        router.post('/user/devices/:deviceId/sensors/:sensorId/notificationTrigger', AuthenticationdMiddleware, (req, res) => {
-            return userController.saveNotificationTrigger(req, res)
+        router.put('/user/devices/:deviceId/actuators/:actuatorId/trigger/:triggerId', AuthenticationdMiddleware, (req, res) => {
+            return userController.updateActuatorTrigger(req, res)
         })
     }
 }

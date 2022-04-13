@@ -15,6 +15,8 @@ import DeleteSensorUseCase from '../../useCases/user/DeleteSensorUseCase'
 import GetSensorDataUseCase from '../../useCases/user/GetSensorDataUseCase'
 import CreateSensorUseCase from '../../useCases/user/CreateSensorUseCase'
 import GetSensorUseCase from '../../useCases/user/GetSensorUseCase'
+import UpdateSensorUseCase from '../../useCases/user/UpdateSensorUseCase'
+import CreateNotificationTriggerUseCase from '../../useCases/user/CreateNotificationTriggerUseCase'
 
 import GetDeviceUseCase from '../../useCases/user/GetDeviceUseCase'
 
@@ -25,9 +27,8 @@ import PrismaActuatorRepository from '../../repositories/PrismaActuatorRepositor
 
 import CreateActuatorTriggerUseCase from '../../useCases/user/CreateActuatorTriggerUseCase'
 import DeleteActuatorTriggerUseCase from '../../useCases/user/DeleteActuatorTriggerUseCase'
-import UpdateSensorUseCase from '../../useCases/user/UpdateSensorUseCase'
 import UpdateActuatorUseCase from '../../useCases/user/UpdateActuatorUseCase'
-import CreateNotificationTriggerUseCase from '../../useCases/user/CreateNotificationTriggerUseCase'
+import UpdateActuatorTriggerUseCase from '../../useCases/user/UpdateActuatorTriggerUseCase'
 
 const makeUserController = (): UserController => {
     const prismaUserStorage = new PrismaUserRepository()
@@ -57,6 +58,7 @@ const makeUserController = (): UserController => {
 
     const createActuatorTriggerUseCase = new CreateActuatorTriggerUseCase(prismaActuatorStorage, prismaUserStorage)
     const deleteActuatorTriggerUseCase = new DeleteActuatorTriggerUseCase(prismaActuatorStorage, prismaUserStorage)
+    const updateActuatorTriggerUseCase = new UpdateActuatorTriggerUseCase(prismaActuatorStorage, prismaUserStorage)
 
     const updateActuatorUseCase = new UpdateActuatorUseCase(prismaActuatorStorage, prismaUserStorage)
 
@@ -71,7 +73,8 @@ const makeUserController = (): UserController => {
         createSensorDataUseCase, deleteSensorUseCase,
         createActuatorUseCase, deleteActuatorUseCase,
         createActuatorTriggerUseCase, deleteActuatorTriggerUseCase,
-        updateSensorUseCase, updateActuatorUseCase, createNotificationTriggerUseCase
+        updateSensorUseCase, updateActuatorUseCase, createNotificationTriggerUseCase,
+        updateActuatorTriggerUseCase
     )
 }
 
