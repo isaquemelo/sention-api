@@ -64,6 +64,10 @@ export default class UserRoutes {
             return userController.saveNotificationTrigger(req, res)
         })
 
+        router.delete('/user/devices/:deviceId/sensors/:sensorId/notificationTrigger/:notificationTriggerId', AuthenticationdMiddleware, (req, res) => {
+            return userController.deleteNotificationTrigger(req, res)
+        })
+
         router.post('/user/devices/:deviceId/actuators', AuthenticationdMiddleware, (req, res) => {
             return userController.saveActuator(req, res)
         })

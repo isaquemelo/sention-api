@@ -154,5 +154,21 @@ export default class PrismaSensorRepository implements ISensorRepository {
         return false
     }
 
+    async deleteNotificationTrigger(notificationTriggerId: string): Promise<boolean>{
+        try {
+
+            await this.prisma.notificationTrigger.delete({
+                where:{
+                    id: notificationTriggerId
+                }
+            })
+
+            return true
+            
+        }catch(error){
+            throw new Error(errors.COULD_NOT_DELETE_SENSOR)
+        }
+    }
+
 
 }
