@@ -1,18 +1,27 @@
 import { IActuatorRepository } from '../../repositories/interfaces/actuator/IActuatorRepository'
-import { IDeviceRepository } from '../../repositories/interfaces/device/IDeviceRepository'
+import { IUserRepository } from '../../repositories/interfaces/user/IUserRepository'
 
 export default class DeleteActuatorUseCase {
-    constructor(private actuatorRepository: IActuatorRepository, private deviceRepository: IDeviceRepository) { }
+    constructor(private actuatorRepository: IActuatorRepository, private usersRepository: IUserRepository) { }
 
-    async execute(actuatorId: string, deviceId: string, userId: string): Promise<boolean> {
+    async execute(actuatorId: string, userId: string): Promise<boolean> {
 
-        // Find the current device
-        const device = await this.deviceRepository.findOne({ id: deviceId })
+        // Checks if the current user is the owner of the inteded thing to be changed
+        const user = await this.usersRepository.findOne({
+            id: userId,
 
-        // Checks if the device belongs to the requesting user
-        if (device && device.userId !== userId) {
-            return false
-        }
+            devices: {
+                some: {
+                    actuators: {
+                        some: {
+                            id: actuatorId
+                        }
+                    }
+                }
+            }
+        })
+
+        if (!user) return false
 
         return await this.actuatorRepository.delete(actuatorId)
 

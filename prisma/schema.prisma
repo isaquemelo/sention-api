@@ -20,7 +20,7 @@ model Device {
   accessCode String     @unique
   sensors    Sensor[]
   actuators  Actuator[]
-  user       User?      @relation(fields: [userId], references: [id])
+  user       User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     String?
 }
 
@@ -31,7 +31,7 @@ model Sensor {
   port                 Json
   data                 SensorData[]
   notificationTriggers NotificationTrigger[]
-  device               Device                @relation(fields: [deviceId], references: [id])
+  device               Device                @relation(fields: [deviceId], references: [id], onDelete: Cascade)
   deviceId             String
   createdAt            DateTime              @default(now())
   updatedAt            DateTime              @updatedAt
@@ -44,14 +44,14 @@ model NotificationTrigger {
   logicOperator String
   value         Float
   content       String
-  sensor        Sensor  @relation(fields: [sensorId], references: [id])
+  sensor        Sensor  @relation(fields: [sensorId], references: [id], onDelete: Cascade)
   sensorId      String
 }
 
 model SensorData {
   id        String   @id @default(uuid())
   data      Json
-  sensor    Sensor   @relation(fields: [sensorId], references: [id])
+  sensor    Sensor   @relation(fields: [sensorId], references: [id], onDelete: Cascade)
   sensorId  String
   createdAt DateTime @default(now())
 }
@@ -62,7 +62,7 @@ model Actuator {
   type      String
   port      Int
   triggers  ActuatorTrigger[]
-  device    Device            @relation(fields: [deviceId], references: [id])
+  device    Device            @relation(fields: [deviceId], references: [id], onDelete: Cascade)
   deviceId  String
   createdAt DateTime          @default(now())
 }
@@ -74,6 +74,6 @@ model ActuatorTrigger {
   logicOperator String
   value         Float
   description   String
-  actuator      Actuator @relation(fields: [actuatorId], references: [id])
+  actuator      Actuator @relation(fields: [actuatorId], references: [id], onDelete: Cascade)
   actuatorId    String
 }
