@@ -15,7 +15,7 @@ export default class GetSensorUseCase {
         // Finds the current device
         const device = await this.deviceRepository.findOne({
             id: deviceId
-        }, false)
+        })
 
         // Checks if the device belongs to the requesting user
         if (device && device.userId !== userId) {

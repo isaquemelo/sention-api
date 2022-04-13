@@ -20,9 +20,7 @@ export default class CreateSensorDataUseCase {
         const sensorData = new SensorData({ ...data, createdAt: date })
 
         // Finds the current device
-        const device = await this.deviceRepository.findOne({
-            id: deviceId
-        }, false)
+        const device = await this.deviceRepository.findOne({ id: deviceId })
 
         // Checks if the device belongs to the requesting user
         if (device && device.userId !== userId) {

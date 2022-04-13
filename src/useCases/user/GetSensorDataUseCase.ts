@@ -8,9 +8,7 @@ export default class GetSensorDataUseCase {
 
     async execute(sensorId: string, deviceId: string, userId: string, page: string, day: string): Promise<SensorData[] | false> {
         // Finds the current device
-        const device = await this.deviceRepository.findOne({
-            id: deviceId
-        }, false)
+        const device = await this.deviceRepository.findOne({ id: deviceId })
 
         // Checks if the device belongs to the requesting user
         if (device && device.userId !== userId) {

@@ -9,9 +9,7 @@ export default class AssociateDeviceToUserUseCase {
 
     async execute(accessCode: string, userId: string): Promise<Device | false> {
         // find the device using the access code (device repository)
-        const device = await this.deviceRepository.findOne({
-            accessCode,
-        }, false)
+        const device = await this.deviceRepository.findOne({ accessCode })
 
         // check if its a valid device
         if (!device) throw new Error(errors.COULD_NOT_FIND_DEVICE)

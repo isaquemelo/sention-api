@@ -6,9 +6,7 @@ export default class GetDeviceUseCase {
 
     async execute(deviceId: string, userId: string): Promise<Device | false> {
         // Find device
-        const device = await this.deviceRepository.findOne({
-            id: deviceId,
-        }, true)
+        const device = await this.deviceRepository.findOneWithRelations({ id: deviceId })
 
         // Device not found
         if (!device) return false
