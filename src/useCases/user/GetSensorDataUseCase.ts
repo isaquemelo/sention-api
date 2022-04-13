@@ -1,19 +1,28 @@
 import SensorData from '../../entities/SensorData'
 
-import { IDeviceRepository } from '../../repositories/interfaces/device/IDeviceRepository'
 import { ISensorRepository } from '../../repositories/interfaces/sensor/ISensorRepository'
+import { IUserRepository } from '../../repositories/interfaces/user/IUserRepository'
 
 export default class GetSensorDataUseCase {
-    constructor(private sensorRepository: ISensorRepository, private deviceRepository: IDeviceRepository) { }
+    constructor(private sensorRepository: ISensorRepository, private usersRepository: IUserRepository) { }
 
-    async execute(sensorId: string, deviceId: string, userId: string, page: string, day: string): Promise<SensorData[] | false> {
-        // Finds the current device
-        const device = await this.deviceRepository.findOne({ id: deviceId })
+    async execute(sensorId: string, userId: string, page: string, day: string): Promise<SensorData[] | false> {
+        // Checks if the current user is the owner of the inteded thing to be changed
+        const user = await this.usersRepository.findOne({
+            id: userId,
 
-        // Checks if the device belongs to the requesting user
-        if (device && device.userId !== userId) {
-            return false
-        }
+            devices: {
+                some: {
+                    sensors: {
+                        some: {
+                            id: sensorId,
+                        }
+                    }
+                }
+            }
+        })
+
+        if (!user) return false
 
         const date = new Date(day)
         const aPage = parseInt(page)

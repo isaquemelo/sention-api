@@ -213,15 +213,15 @@ export default class UserController {
     }
 
     async getSensorData(req: Request, res: Response): Promise<Response | undefined> {
-        const { deviceId, userId, sensorId } = req.params
+        const { userId, sensorId } = req.params
         const page = <string>req.query.page ?? '1'
         const day = <string>req.query.day ?? new Date().toString()
 
         try {
-            const sensorData = await this.getSensorDataUseCase.execute(sensorId, deviceId, userId, page, day)
-
+            const sensorData = await this.getSensorDataUseCase.execute(sensorId, userId, page, day)
             if (sensorData) return res.send(sensorData)
-            return res.status(StatusCodes.NOT_FOUND).send()
+
+            return res.status(StatusCodes.UNAUTHORIZED).send()
         } catch (error) {
             console.error(error)
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send()
