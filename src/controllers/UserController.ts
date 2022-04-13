@@ -28,6 +28,8 @@ import UpdateActuatorUseCase from '../useCases/user/UpdateActuatorUseCase'
 
 import CreateActuatorTriggerUseCase from '../useCases/user/CreateActuatorTriggerUseCase'
 import DeleteActuatorTriggerUseCase from '../useCases/user/DeleteActuatorTriggerUseCase'
+import { INotificationTriggerDTO } from '../useCases/interfaces/INotificationTriggerDTO'
+import CreateNotificationTriggerUseCase from '../useCases/user/CreateNotificationTriggerUseCase'
 
 
 export default class UserController {
@@ -40,6 +42,7 @@ export default class UserController {
         private createActuatorUseCase: CreateActuatorUseCase, private deleteActuatorUseCase: DeleteActuatorUseCase,
         private createActuatorTriggerUseCase: CreateActuatorTriggerUseCase, private deleteActuatorTriggerUseCase: DeleteActuatorTriggerUseCase,
         private updateSensorUseCase: UpdateSensorUseCase, private updateActuatorUseCase: UpdateActuatorUseCase,
+        private createNotificationTriggerUseCase: CreateNotificationTriggerUseCase
     ) { }
 
     async getUser(req: Request, res: Response): Promise<Response | undefined> {
@@ -260,6 +263,20 @@ export default class UserController {
             const actuatorTrigger = await this.createActuatorTriggerUseCase.execute(body, actuatorId, userId)
             if (actuatorTrigger) return res.status(StatusCodes.CREATED).send(actuatorTrigger)
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send()
+        } catch (error) {
+            console.error(error)
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send()
+        }
+    }
+
+    async saveNotificationTrigger(req: Request, res: Response): Promise<Response | undefined> {
+        const { deviceId, sensorId, userId } = req.params
+        const body: INotificationTriggerDTO = req.body
+
+        try {
+            const notificationTrigger = await this.createNotificationTriggerUseCase.execute(body, sensorId, userId)
+            if (notificationTrigger) return res.status(StatusCodes.CREATED).send(notificationTrigger)
+            return res.status(StatusCodes.UNAUTHORIZED).send()
         } catch (error) {
             console.error(error)
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send()

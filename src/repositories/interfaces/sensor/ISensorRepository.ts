@@ -1,4 +1,5 @@
 import { Device } from '@prisma/client'
+import NotificationTrigger from '../../../entities/NotificationTrigger';
 
 import Sensor from '../../../entities/Sensor'
 import SensorData from '../../../entities/SensorData'
@@ -13,4 +14,6 @@ export interface ISensorRepository {
     update(sensorId: string, body: ISensorDTO): Promise<Sensor | false>
     getData(sensorId: string, page: number, day: Date): Promise<SensorData[] | false>;
     saveData(sensorData: SensorData, sensorId: string): Promise<SensorData | false>;
+
+    saveNotificationTrigger(notificationTrigger: NotificationTrigger, sensorId: string): Promise<NotificationTrigger | false>
 }

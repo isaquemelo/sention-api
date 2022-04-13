@@ -5,6 +5,8 @@ export const errors = {
     ACTUATOR_NOT_FOUND: 'Actuator not found.',
     COULD_NOT_SAVE_USER: 'User could not be saved.',
     COULD_NOT_SAVE_SENSOR: 'Sensor could not be saved.',
+    COULD_NOT_SAVE_ACTUATOR_TRIGGER: 'Actuator trigger could not be saved.',
+    COULD_NOT_SAVE_NOTIFICATION_TRIGGER: 'Notification Trigger could not be saved.',
     COULD_NOT_DELETE_SENSOR: 'Sensor could not be deleted.',
     COULD_NOT_UPDATE_SENSOR: 'Sensor could not be updated.',
     COULD_NOT_DELETE_ACTUATOR: 'Actuator could not be deleted.',

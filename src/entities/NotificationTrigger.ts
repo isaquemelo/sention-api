@@ -1,10 +1,12 @@
 export default class NotificationTrigger {
-    id: string
+    id?: string
     name: string
     type: string
     logicOperator: string
     value: number
     content: string
 
-    constructor(props: NotificationTrigger) { }
+    constructor(props: NotificationTrigger) {
+        Object.assign(this, props)
+     }
 }
