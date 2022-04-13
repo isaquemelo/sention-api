@@ -140,14 +140,14 @@ export default class PrismaSensorRepository implements ISensorRepository {
     async saveNotificationTrigger(notificationTrigger: NotificationTrigger, sensorId: string): Promise<NotificationTrigger | false>{
 
         try {
-            const savedSensor = await this.prisma.notificationTrigger.create({
+            const savedNotificationTrigger = await this.prisma.notificationTrigger.create({
                 data: {
                     sensorId,
                     ...notificationTrigger,
                 }
             })
 
-            if (savedSensor) return new NotificationTrigger({ ...notificationTrigger, id: savedSensor.id })
+            if (savedNotificationTrigger) return new NotificationTrigger({ ...notificationTrigger, id: savedNotificationTrigger.id })
         } catch (error) {
             throw new Error(errors.COULD_NOT_SAVE_NOTIFICATION_TRIGGER)
         }

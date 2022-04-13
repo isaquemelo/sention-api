@@ -92,18 +92,17 @@ export default class PrismaActuatorRepository implements IActuatorRepository {
 
     async saveTrigger(trigger: ActuatorTrigger, actuatorId: string): Promise<ActuatorTrigger | false> {
         try {
-            const savedActuator = await this.prisma.actuatorTrigger.create({
+            const savedActuatorTrigger = await this.prisma.actuatorTrigger.create({
                 data: {
                     actuatorId,
                     ...trigger,
                 }
             })
 
-            if (savedActuator) return new ActuatorTrigger({ ...trigger, id: savedActuator.id })
+            if (savedActuatorTrigger) return new ActuatorTrigger({ ...trigger, id: savedActuatorTrigger.id })
         } catch (error) {
-            throw new Error(errors.COULD_NOT_SAVE_SENSOR)
+            throw new Error(errors.COULD_NOT_SAVE_ACTUATOR_TRIGGER)
         }
-
         return false
     }
 

@@ -273,9 +273,6 @@ export default class UserController {
         const { deviceId, sensorId, userId } = req.params
         const body: INotificationTriggerDTO = req.body
 
-        //console.log(req.params)
-        //console.log(req.body)
-
         try {
             const notificationTrigger = await this.createNotificationTriggerUseCase.execute(body, sensorId, userId)
             if (notificationTrigger) return res.status(StatusCodes.CREATED).send(notificationTrigger)
