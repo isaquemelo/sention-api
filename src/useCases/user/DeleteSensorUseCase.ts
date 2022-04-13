@@ -1,19 +1,26 @@
 import { ISensorRepository } from '../../repositories/interfaces/sensor/ISensorRepository'
-import { IDeviceRepository } from '../../repositories/interfaces/device/IDeviceRepository'
-import { ISensorDTO } from '../interfaces/ISensorDTO'
+import { IUserRepository } from '../../repositories/interfaces/user/IUserRepository'
 
 export default class DeleteSensorUseCase {
-    constructor(private sensorRepository: ISensorRepository, private deviceRepository: IDeviceRepository) { }
+    constructor(private sensorRepository: ISensorRepository, private usersRepository: IUserRepository) { }
 
-    async execute(sensorId: string, deviceId: string, userId: string): Promise<boolean> {
+    async execute(sensorId: string, userId: string): Promise<boolean> {
+        // Checks if the current user is the owner of the inteded thing to be changed
+        const user = await this.usersRepository.findOne({
+            id: userId,
 
-        // Find the current device
-        const device = await this.deviceRepository.findOne({ id: deviceId })
+            devices: {
+                some: {
+                    sensors: {
+                        some: {
+                            id: sensorId,
+                        }
+                    }
+                }
+            }
+        })
 
-        // Checks if the device belongs to the requesting user
-        if (device && device.userId !== userId) {
-            return false
-        }
+        if (!user) return false
 
 
         return await this.sensorRepository.delete(sensorId)

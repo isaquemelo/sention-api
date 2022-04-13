@@ -186,10 +186,10 @@ export default class UserController {
     }
 
     async deleteSensor(req: Request, res: Response): Promise<Response | undefined> {
-        const { deviceId, sensorId, userId } = req.params
+        const { sensorId, userId } = req.params
 
         try {
-            const allowed = await this.deleteSensorUseCase.execute(sensorId, deviceId, userId)
+            const allowed = await this.deleteSensorUseCase.execute(sensorId, userId)
             if (!allowed) return res.status(StatusCodes.UNAUTHORIZED).send()
             return res.send()
         } catch (error) {
