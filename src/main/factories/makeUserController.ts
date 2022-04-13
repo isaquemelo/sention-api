@@ -53,8 +53,8 @@ const makeUserController = (): UserController => {
 
     const createSensorDataUseCase = new CreateSensorDataUseCase(prismaSensorStorage, prismaDeviceStorage)
 
-    const createActuatorUseCase = new CreateActuatorUseCase(prismaActuatorStorage, prismaDeviceStorage)
-    const deleteActuatorUseCase = new DeleteActuatorUseCase(prismaActuatorStorage, prismaDeviceStorage)
+    const createActuatorUseCase = new CreateActuatorUseCase(prismaActuatorStorage, prismaUserStorage)
+    const deleteActuatorUseCase = new DeleteActuatorUseCase(prismaActuatorStorage, prismaUserStorage)
 
     const createActuatorTriggerUseCase = new CreateActuatorTriggerUseCase(prismaActuatorStorage, prismaUserStorage)
     const deleteActuatorTriggerUseCase = new DeleteActuatorTriggerUseCase(prismaActuatorStorage, prismaUserStorage)

@@ -1,23 +1,28 @@
 import Actuator from '../../entities/Actuator'
 
 import { IActuatorRepository } from '../../repositories/interfaces/actuator/IActuatorRepository'
-import { IDeviceRepository } from '../../repositories/interfaces/device/IDeviceRepository'
+import { IUserRepository } from '../../repositories/interfaces/user/IUserRepository'
 
 import { IActuatorDTO } from '../interfaces/IActuatorDTO'
 
 export default class CreateActuatorUseCase {
-    constructor(private actuatorRepository: IActuatorRepository, private deviceRepository: IDeviceRepository) { }
+    constructor(private actuatorRepository: IActuatorRepository, private usersRepository: IUserRepository) { }
 
     async execute(data: IActuatorDTO, deviceId: string, userId: string): Promise<Actuator | false> {
         const actuator = new Actuator({ ...data })
 
-        // Finds the current device
-        const device = await this.deviceRepository.findOne({ id: deviceId })
+        // Checks if the current user is the owner of the inteded thing to be changed
+        const user = await this.usersRepository.findOne({
+            id: userId,
 
-        // Checks if the device belongs to the requesting user
-        if (device && device.userId !== userId) {
-            return false
-        }
+            devices: {
+                some: {
+                    id: deviceId,
+                }
+            }
+        })
+
+        if (!user) return false
 
         return await this.actuatorRepository.save(actuator, deviceId)
     }

@@ -136,7 +136,7 @@ export default class UserController {
         try {
             const actuator = await this.createActuatorUseCase.execute(body, deviceId, userId)
             if (actuator) return res.status(StatusCodes.CREATED).send(actuator)
-            return res.status(StatusCodes.NOT_FOUND).send()
+            return res.status(StatusCodes.UNAUTHORIZED).send()
         } catch (error) {
             console.error(error)
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send()
@@ -243,10 +243,10 @@ export default class UserController {
     }
 
     async deleteActuator(req: Request, res: Response): Promise<Response | undefined> {
-        const { deviceId, actuatorId, userId } = req.params
+        const { actuatorId, userId } = req.params
 
         try {
-            const allowed = await this.deleteActuatorUseCase.execute(actuatorId, deviceId, userId)
+            const allowed = await this.deleteActuatorUseCase.execute(actuatorId, userId)
             if (!allowed) return res.status(StatusCodes.UNAUTHORIZED).send()
 
             return res.send()
