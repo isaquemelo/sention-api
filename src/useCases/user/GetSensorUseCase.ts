@@ -1,26 +1,32 @@
 import Sensor from '../../entities/Sensor'
-import { IDeviceRepository } from '../../repositories/interfaces/device/IDeviceRepository'
 import { ISensorRepository } from '../../repositories/interfaces/sensor/ISensorRepository'
+import { IUserRepository } from '../../repositories/interfaces/user/IUserRepository'
 
 export default class GetSensorUseCase {
-    constructor(private sensorRepository: ISensorRepository, private deviceRepository: IDeviceRepository) { }
+    constructor(private sensorRepository: ISensorRepository, private usersRepository: IUserRepository) { }
 
-    async execute(sensorId: string, deviceId: string, userId: string): Promise<Sensor | false> {
+    async execute(sensorId: string, userId: string): Promise<Sensor | false> {
 
         // Find sensor
         const sensor = await this.sensorRepository.findOne({
             id: sensorId
         })
 
-        // Finds the current device
-        const device = await this.deviceRepository.findOne({
-            id: deviceId
+        // Checks if the current user is the owner of the inteded thing to be changed
+        const user = await this.usersRepository.findOne({
+            id: userId,
+            devices: {
+                some: {
+                    sensors: {
+                        some: {
+                            id: sensorId,
+                        }
+                    }
+                }
+            }
         })
 
-        // Checks if the device belongs to the requesting user
-        if (device && device.userId !== userId) {
-            return false
-        }
+        if (!user) return false
 
         // Sensor not found
         if (!sensor) return false

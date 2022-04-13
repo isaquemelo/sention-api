@@ -117,10 +117,10 @@ export default class UserController {
     }
 
     async getSensor(req: Request, res: Response): Promise<Response | undefined> {
-        const { deviceId, sensorId, userId } = req.params
+        const { sensorId, userId } = req.params
 
         try {
-            const sensor = await this.getSensorUseCase.execute(sensorId, deviceId, userId)
+            const sensor = await this.getSensorUseCase.execute(sensorId, userId)
             if (!sensor) return res.status(StatusCodes.NOT_FOUND).send()
             return res.send(sensor)
         } catch (error) {
