@@ -2,6 +2,7 @@ import { Router } from 'express'
 import AuthRoutes from './auth/auth'
 import DeviceRoutes from './device/device'
 import ItemsRoutes from './items/items'
+import SensorRoutes from './sensor/sensor'
 import UserRoutes from './user/user'
 
 const router = Router()
@@ -16,6 +17,7 @@ router.get('/ping', (req, res) => {
 DeviceRoutes.buildRoutes(router)
 ItemsRoutes.buildRoutes(router)
 UserRoutes.buildRoutes(router)
+SensorRoutes.buildRoutes(router)
 AuthRoutes.buildRoutes(router)
 
 export default router

@@ -5,13 +5,7 @@ import PrismaUserRepository from '../../repositories/PrismaUserRepository'
 import CreateUserUseCase from '../../useCases/user/CreateUserUseCase'
 import GetUserUseCase from '../../useCases/user/GetUserUseCase'
 
-import CreateSensorDataUseCase from '../../useCases/user/CreateSensorDataUseCase'
 import PrismaSensorRepository from '../../repositories/PrismaSensorRepository'
-import DeleteSensorUseCase from '../../useCases/user/DeleteSensorUseCase'
-import GetSensorDataUseCase from '../../useCases/user/GetSensorDataUseCase'
-import CreateSensorUseCase from '../../useCases/user/CreateSensorUseCase'
-import GetSensorUseCase from '../../useCases/user/GetSensorUseCase'
-import UpdateSensorUseCase from '../../useCases/user/UpdateSensorUseCase'
 import CreateNotificationTriggerUseCase from '../../useCases/user/CreateNotificationTriggerUseCase'
 
 import CreateActuatorUseCase from '../../useCases/user/CreateActuatorUseCase'
@@ -34,15 +28,6 @@ const makeUserController = (): UserController => {
     const createUserUseCase = new CreateUserUseCase(prismaUserStorage)
     const getUserUseCase = new GetUserUseCase(prismaUserStorage)
 
-    const getSensorUseCase = new GetSensorUseCase(prismaSensorStorage, prismaUserStorage)
-    const createSensorUseCase = new CreateSensorUseCase(prismaSensorStorage, prismaUserStorage)
-    const deleteSensorUseCase = new DeleteSensorUseCase(prismaSensorStorage, prismaUserStorage)
-    const updateSensorUseCase = new UpdateSensorUseCase(prismaSensorStorage, prismaUserStorage)
-
-    const getSensorDataUseCase = new GetSensorDataUseCase(prismaSensorStorage, prismaUserStorage)
-
-    const createSensorDataUseCase = new CreateSensorDataUseCase(prismaSensorStorage, prismaUserStorage)
-
     const createActuatorUseCase = new CreateActuatorUseCase(prismaActuatorStorage, prismaUserStorage)
     const deleteActuatorUseCase = new DeleteActuatorUseCase(prismaActuatorStorage, prismaUserStorage)
 
@@ -57,12 +42,10 @@ const makeUserController = (): UserController => {
     const updateNotificationTriggerUseCase = new UpdateNotificationTriggerUseCase(prismaSensorStorage, prismaUserStorage)
 
     return new UserController(
-        createUserUseCase, getUserUseCase, getSensorUseCase,
-        createSensorUseCase, getSensorDataUseCase,
-        createSensorDataUseCase, deleteSensorUseCase,
+        createUserUseCase, getUserUseCase,
         createActuatorUseCase, deleteActuatorUseCase,
         createActuatorTriggerUseCase, deleteActuatorTriggerUseCase,
-        updateSensorUseCase, updateActuatorUseCase, createNotificationTriggerUseCase,
+        updateActuatorUseCase, createNotificationTriggerUseCase,
         updateActuatorTriggerUseCase, deleteNotificationTriggerUseCase, updateNotificationTriggerUseCase
     )
 }
