@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import ActuatorRoutes from './actuator/actuator'
+import ActuatorTriggerRoutes from './actuatorTrigger/actuatorTrigger'
 import AuthRoutes from './auth/auth'
 import DeviceRoutes from './device/device'
 import ItemsRoutes from './items/items'
@@ -22,6 +23,7 @@ DeviceRoutes.buildRoutes(router)
 SensorRoutes.buildRoutes(router)
 ActuatorRoutes.buildRoutes(router)
 NotificationTriggerRoutes.buildRoutes(router)
+ActuatorTriggerRoutes.buildRoutes(router)
 
 ItemsRoutes.buildRoutes(router)
 

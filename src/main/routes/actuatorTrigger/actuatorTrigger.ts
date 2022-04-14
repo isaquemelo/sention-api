@@ -6,7 +6,7 @@ import ActuatorTriggerController from '../../../controllers/ActuatorTriggerContr
 
 import { AuthenticationdMiddleware } from '../../middlewares/Authentication'
 
-export default class ActuatorTrigger {
+export default class ActuatorTriggerRoutes {
     public static buildRoutes(router: Router) {
         const actuatorTriggerController: ActuatorTriggerController = makeActuatorTriggerController()
 
