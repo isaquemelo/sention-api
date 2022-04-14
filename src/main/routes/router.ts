@@ -3,6 +3,7 @@ import ActuatorRoutes from './actuator/actuator'
 import AuthRoutes from './auth/auth'
 import DeviceRoutes from './device/device'
 import ItemsRoutes from './items/items'
+import NotificationTriggerRoutes from './notificationTrigger/notificationTrigger'
 import SensorRoutes from './sensor/sensor'
 import UserRoutes from './user/user'
 
@@ -20,6 +21,7 @@ UserRoutes.buildRoutes(router)
 DeviceRoutes.buildRoutes(router)
 SensorRoutes.buildRoutes(router)
 ActuatorRoutes.buildRoutes(router)
+NotificationTriggerRoutes.buildRoutes(router)
 
 ItemsRoutes.buildRoutes(router)
 

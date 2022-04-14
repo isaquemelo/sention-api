@@ -16,18 +16,6 @@ export default class UserRoutes {
             return userController.getUser(req, res)
         })
 
-        router.post('/user/devices/:deviceId/sensors/:sensorId/notificationTrigger', AuthenticationdMiddleware, (req, res) => {
-            return userController.saveNotificationTrigger(req, res)
-        })
-
-        router.delete('/user/devices/:deviceId/sensors/:sensorId/notificationTrigger/:notificationTriggerId', AuthenticationdMiddleware, (req, res) => {
-            return userController.deleteNotificationTrigger(req, res)
-        })
-
-        router.put('/user/devices/:deviceId/sensors/:sensorId/notificationTrigger/:notificationTriggerId', AuthenticationdMiddleware, (req, res) => {
-            return userController.updateNotificationTrigger(req, res)
-        })
-
         router.post('/user/devices/:deviceId/actuators/:actuatorId/trigger', AuthenticationdMiddleware, (req, res) => {
             return userController.saveActuatorTrigger(req, res)
         })

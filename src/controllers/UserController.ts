@@ -11,22 +11,15 @@ import { INotificationTriggerDTO } from '../useCases/interfaces/INotificationTri
 import CreateUserUseCase from '../useCases/user/CreateUserUseCase'
 import GetUserUseCase from '../useCases/user/GetUserUseCase'
 
-
-import CreateNotificationTriggerUseCase from '../useCases/user/CreateNotificationTriggerUseCase'
-
 import CreateActuatorTriggerUseCase from '../useCases/user/CreateActuatorTriggerUseCase'
 import DeleteActuatorTriggerUseCase from '../useCases/user/DeleteActuatorTriggerUseCase'
 import UpdateActuatorTriggerUseCase from '../useCases/user/UpdateActuatorTriggerUseCase'
-import DeleteNotificationTriggerUseCase from '../useCases/user/DeleteNotificationTriggerUseCase'
-import UpdateNotificationTriggerUseCase from '../useCases/user/UpdateNotificationTriggerUseCase'
-
 
 export default class UserController {
     constructor(
         private createUserUseCase: CreateUserUseCase, private getUserUseCase: GetUserUseCase,
         private createActuatorTriggerUseCase: CreateActuatorTriggerUseCase, private deleteActuatorTriggerUseCase: DeleteActuatorTriggerUseCase,
-        private createNotificationTriggerUseCase: CreateNotificationTriggerUseCase, private updateActuatorTriggerUseCase: UpdateActuatorTriggerUseCase,
-        private deleteNotificationTriggerUseCase: DeleteNotificationTriggerUseCase, private updateNotificationTriggerUseCase: UpdateNotificationTriggerUseCase
+        private updateActuatorTriggerUseCase: UpdateActuatorTriggerUseCase,
     ) { }
 
     async getUser(req: Request, res: Response): Promise<Response | undefined> {
@@ -93,48 +86,6 @@ export default class UserController {
             const actuatorTrigger = await this.createActuatorTriggerUseCase.execute(body, actuatorId, userId)
             if (actuatorTrigger) return res.status(StatusCodes.CREATED).send(actuatorTrigger)
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send()
-        } catch (error) {
-            console.error(error)
-            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send()
-        }
-    }
-
-    async saveNotificationTrigger(req: Request, res: Response): Promise<Response | undefined> {
-        const { deviceId, sensorId, userId } = req.params
-        const body: INotificationTriggerDTO = req.body
-
-        try {
-            const notificationTrigger = await this.createNotificationTriggerUseCase.execute(body, sensorId, userId)
-            if (notificationTrigger) return res.status(StatusCodes.CREATED).send(notificationTrigger)
-            return res.status(StatusCodes.UNAUTHORIZED).send()
-        } catch (error) {
-            console.error(error)
-            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send()
-        }
-    }
-
-    async deleteNotificationTrigger(req: Request, res: Response): Promise<Response | undefined> {
-        const { deviceId, notificationTriggerId, userId } = req.params
-
-        try {
-            const allowed = await this.deleteNotificationTriggerUseCase.execute(notificationTriggerId, userId)
-            if (!allowed) return res.status(StatusCodes.UNAUTHORIZED).send()
-
-            return res.send()
-        } catch (error) {
-            console.error(error)
-            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send()
-        }
-    }
-
-    async updateNotificationTrigger(req: Request, res: Response): Promise<Response | undefined> {
-        const { notificationTriggerId, userId } = req.params
-        const body: INotificationTriggerDTO = req.body
-
-        try {
-            const notificationTrigger = await this.updateNotificationTriggerUseCase.execute(body, notificationTriggerId, userId)
-            if (notificationTrigger) return res.send(notificationTrigger)
-            return res.status(StatusCodes.UNAUTHORIZED).send()
         } catch (error) {
             console.error(error)
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send()

@@ -29,15 +29,12 @@ const makeUserController = (): UserController => {
     const updateActuatorTriggerUseCase = new UpdateActuatorTriggerUseCase(prismaActuatorStorage, prismaUserStorage)
 
 
-    const createNotificationTriggerUseCase = new CreateNotificationTriggerUseCase(prismaSensorStorage, prismaUserStorage)
-    const deleteNotificationTriggerUseCase = new DeleteNotificationTriggerUseCase(prismaSensorStorage, prismaUserStorage)
-    const updateNotificationTriggerUseCase = new UpdateNotificationTriggerUseCase(prismaSensorStorage, prismaUserStorage)
+
 
     return new UserController(
         createUserUseCase, getUserUseCase,
         createActuatorTriggerUseCase, deleteActuatorTriggerUseCase,
-        createNotificationTriggerUseCase, updateActuatorTriggerUseCase,
-        deleteNotificationTriggerUseCase, updateNotificationTriggerUseCase
+        updateActuatorTriggerUseCase,
     )
 }
 
