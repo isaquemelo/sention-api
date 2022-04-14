@@ -1,6 +1,8 @@
 import { Router } from 'express'
-import UserController from '../../../controllers/UserController'
+
 import { makeUserController } from '../../factories/makeUserController'
+import UserController from '../../../controllers/UserController'
+
 import { AllowOnlyOwnAccess } from '../../middlewares/users/AllowOnlyOwnAccess'
 import { AuthenticationdMiddleware } from '../../middlewares/Authentication'
 
@@ -14,18 +16,6 @@ export default class UserRoutes {
 
         router.get('/user/:id', AuthenticationdMiddleware, AllowOnlyOwnAccess, (req, res) => {
             return userController.getUser(req, res)
-        })
-
-        router.post('/user/devices/:deviceId/actuators/:actuatorId/trigger', AuthenticationdMiddleware, (req, res) => {
-            return userController.saveActuatorTrigger(req, res)
-        })
-
-        router.delete('/user/devices/:deviceId/actuators/:actuatorId/trigger/:triggerId', AuthenticationdMiddleware, (req, res) => {
-            return userController.deleteActuatorTrigger(req, res)
-        })
-
-        router.put('/user/devices/:deviceId/actuators/:actuatorId/trigger/:triggerId', AuthenticationdMiddleware, (req, res) => {
-            return userController.updateActuatorTrigger(req, res)
         })
     }
 }
