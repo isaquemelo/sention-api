@@ -11,10 +11,6 @@ import { INotificationTriggerDTO } from '../useCases/interfaces/INotificationTri
 import CreateUserUseCase from '../useCases/user/CreateUserUseCase'
 import GetUserUseCase from '../useCases/user/GetUserUseCase'
 
-import AssociateDeviceToUserUseCase from '../useCases/user/AssociateDeviceToUserUseCase'
-import DissociateDeviceUseCase from '../useCases/user/DissociateDeviceUseCase'
-
-import GetDeviceUseCase from '../useCases/user/GetDeviceUseCase'
 
 import GetSensorUseCase from '../useCases/user/GetSensorUseCase'
 import CreateSensorUseCase from '../useCases/user/CreateSensorUseCase'
@@ -38,9 +34,7 @@ import UpdateNotificationTriggerUseCase from '../useCases/user/UpdateNotificatio
 export default class UserController {
     constructor(
         private createUserUseCase: CreateUserUseCase, private getUserUseCase: GetUserUseCase,
-        private associateDeviceToUserUseCase: AssociateDeviceToUserUseCase, private dissociateDeviceUseCase: DissociateDeviceUseCase,
-        private getDeviceUseCase: GetDeviceUseCase, private getSensorUseCase: GetSensorUseCase,
-        private createSensorUseCase: CreateSensorUseCase, private getSensorDataUseCase: GetSensorDataUseCase,
+        private getSensorUseCase: GetSensorUseCase, private createSensorUseCase: CreateSensorUseCase, private getSensorDataUseCase: GetSensorDataUseCase,
         private createSensorDataUseCase: CreateSensorDataUseCase, private deleteSensorUseCase: DeleteSensorUseCase,
         private createActuatorUseCase: CreateActuatorUseCase, private deleteActuatorUseCase: DeleteActuatorUseCase,
         private createActuatorTriggerUseCase: CreateActuatorTriggerUseCase, private deleteActuatorTriggerUseCase: DeleteActuatorTriggerUseCase,
@@ -75,48 +69,6 @@ export default class UserController {
         }
 
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send()
-    }
-
-    async getDevice(req: Request, res: Response): Promise<Response | undefined> {
-        const { userId, deviceId } = req.params
-
-        try {
-            const device = await this.getDeviceUseCase.execute(deviceId, userId)
-            if (!device) return res.status(StatusCodes.NOT_FOUND).send()
-            return res.send(device)
-        } catch (error) {
-            console.error(error)
-            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send()
-        }
-    }
-
-    async associateDevice(req: Request, res: Response): Promise<Response | undefined> {
-        const { userId } = req.params
-        const { accessCode = '' } = req.body
-
-        try {
-            const device = await this.associateDeviceToUserUseCase.execute(accessCode, userId)
-            if (device) return res.status(StatusCodes.CREATED).send(device)
-        } catch (error) {
-            console.error(error)
-            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send()
-        }
-
-        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send()
-    }
-
-    async dissociateDevice(req: Request, res: Response): Promise<Response | undefined> {
-        const { userId, deviceId } = req.params
-
-        try {
-            const allowed = await this.dissociateDeviceUseCase.execute(deviceId, userId)
-            if (!allowed) return res.status(StatusCodes.UNAUTHORIZED).send()
-
-            return res.send()
-        } catch (error) {
-            console.error(error)
-            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send()
-        }
     }
 
     async getSensor(req: Request, res: Response): Promise<Response | undefined> {
@@ -316,7 +268,7 @@ export default class UserController {
     }
 
     async updateNotificationTrigger(req: Request, res: Response): Promise<Response | undefined> {
-        const {notificationTriggerId, userId } = req.params
+        const { notificationTriggerId, userId } = req.params
         const body: INotificationTriggerDTO = req.body
 
         try {

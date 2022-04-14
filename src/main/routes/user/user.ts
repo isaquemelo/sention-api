@@ -16,18 +16,6 @@ export default class UserRoutes {
             return userController.getUser(req, res)
         })
 
-        router.get('/user/devices/:deviceId', AuthenticationdMiddleware, (req, res) => {
-            return userController.getDevice(req, res)
-        })
-
-        router.post('/user/devices/associate', AuthenticationdMiddleware, (req, res) => {
-            return userController.associateDevice(req, res)
-        })
-
-        router.delete('/user/devices/dissociate/:deviceId', AuthenticationdMiddleware, (req, res) => {
-            return userController.dissociateDevice(req, res)
-        })
-
         router.get('/user/devices/:deviceId/sensors/:sensorId/data', AuthenticationdMiddleware, (req, res) => {
             return userController.getSensorData(req, res)
         })

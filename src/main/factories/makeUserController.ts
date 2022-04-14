@@ -1,13 +1,9 @@
 import UserController from '../../controllers/UserController'
 
 import PrismaUserRepository from '../../repositories/PrismaUserRepository'
-import PrismaDeviceRepository from '../../repositories/PrismaDeviceRepository'
 
 import CreateUserUseCase from '../../useCases/user/CreateUserUseCase'
 import GetUserUseCase from '../../useCases/user/GetUserUseCase'
-
-import AssociateDeviceToUserUseCase from '../../useCases/user/AssociateDeviceToUserUseCase'
-import DissociateDeviceUseCase from '../../useCases/user/DissociateDeviceUseCase'
 
 import CreateSensorDataUseCase from '../../useCases/user/CreateSensorDataUseCase'
 import PrismaSensorRepository from '../../repositories/PrismaSensorRepository'
@@ -17,8 +13,6 @@ import CreateSensorUseCase from '../../useCases/user/CreateSensorUseCase'
 import GetSensorUseCase from '../../useCases/user/GetSensorUseCase'
 import UpdateSensorUseCase from '../../useCases/user/UpdateSensorUseCase'
 import CreateNotificationTriggerUseCase from '../../useCases/user/CreateNotificationTriggerUseCase'
-
-import GetDeviceUseCase from '../../useCases/user/GetDeviceUseCase'
 
 import CreateActuatorUseCase from '../../useCases/user/CreateActuatorUseCase'
 import DeleteActuatorUseCase from '../../useCases/user/DeleteActuatorUseCase'
@@ -34,17 +28,11 @@ import UpdateNotificationTriggerUseCase from '../../useCases/user/UpdateNotifica
 
 const makeUserController = (): UserController => {
     const prismaUserStorage = new PrismaUserRepository()
-    const prismaDeviceStorage = new PrismaDeviceRepository()
     const prismaSensorStorage = new PrismaSensorRepository()
     const prismaActuatorStorage = new PrismaActuatorRepository()
 
     const createUserUseCase = new CreateUserUseCase(prismaUserStorage)
     const getUserUseCase = new GetUserUseCase(prismaUserStorage)
-
-    const associateDeviceToUserUseCase = new AssociateDeviceToUserUseCase(prismaUserStorage, prismaDeviceStorage)
-    const dissociateDeviceUseCase = new DissociateDeviceUseCase(prismaUserStorage)
-
-    const getDeviceUseCase = new GetDeviceUseCase(prismaDeviceStorage)
 
     const getSensorUseCase = new GetSensorUseCase(prismaSensorStorage, prismaUserStorage)
     const createSensorUseCase = new CreateSensorUseCase(prismaSensorStorage, prismaUserStorage)
@@ -69,9 +57,7 @@ const makeUserController = (): UserController => {
     const updateNotificationTriggerUseCase = new UpdateNotificationTriggerUseCase(prismaSensorStorage, prismaUserStorage)
 
     return new UserController(
-        createUserUseCase, getUserUseCase,
-        associateDeviceToUserUseCase, dissociateDeviceUseCase,
-        getDeviceUseCase, getSensorUseCase,
+        createUserUseCase, getUserUseCase, getSensorUseCase,
         createSensorUseCase, getSensorDataUseCase,
         createSensorDataUseCase, deleteSensorUseCase,
         createActuatorUseCase, deleteActuatorUseCase,
