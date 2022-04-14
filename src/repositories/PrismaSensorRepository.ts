@@ -73,18 +73,18 @@ export default class PrismaSensorRepository implements ISensorRepository {
         }
     }
 
-    async update(sensorId: string, data: Sensor): Promise<Sensor | false>{
+    async update(sensorId: string, data: Sensor): Promise<Sensor | false> {
         try {
             const updatedSensor = await this.prisma.sensor.update({
-                where:{
+                where: {
                     id: sensorId
                 }
-            ,data: {
-                name: data.name,
-                type: data.type,
-                port: data.port,
-            }
-        })
+                , data: {
+                    name: data.name,
+                    type: data.type,
+                    port: data.port,
+                }
+            })
             if (updatedSensor) return prismaSensorAdapter(updatedSensor)
         } catch (error) {
             throw new Error(errors.COULD_NOT_UPDATE_SENSOR)
@@ -137,7 +137,7 @@ export default class PrismaSensorRepository implements ISensorRepository {
         return false
     }
 
-    async saveNotificationTrigger(notificationTrigger: NotificationTrigger, sensorId: string): Promise<NotificationTrigger | false>{
+    async saveNotificationTrigger(notificationTrigger: NotificationTrigger, sensorId: string): Promise<NotificationTrigger | false> {
 
         try {
             const savedNotificationTrigger = await this.prisma.notificationTrigger.create({
@@ -154,26 +154,26 @@ export default class PrismaSensorRepository implements ISensorRepository {
         return false
     }
 
-    async deleteNotificationTrigger(notificationTriggerId: string): Promise<boolean>{
+    async deleteNotificationTrigger(notificationTriggerId: string): Promise<boolean> {
         try {
 
             await this.prisma.notificationTrigger.delete({
-                where:{
+                where: {
                     id: notificationTriggerId
                 }
             })
 
             return true
 
-        }catch(error){
+        } catch (error) {
             throw new Error(errors.COULD_NOT_DELETE_SENSOR)
         }
     }
 
-    async updateNotificationTrigger(notificationTrigger: NotificationTrigger): Promise<false | NotificationTrigger>{
-        try{
+    async updateNotificationTrigger(notificationTrigger: NotificationTrigger): Promise<false | NotificationTrigger> {
+        try {
             const updatedNotificationTrigger = await this.prisma.notificationTrigger.update({
-                where:{
+                where: {
                     id: notificationTrigger.id,
                 },
                 data: {
@@ -181,8 +181,8 @@ export default class PrismaSensorRepository implements ISensorRepository {
                 }
             })
 
-            if (updatedNotificationTrigger) return new NotificationTrigger({...updatedNotificationTrigger})
-        }catch{
+            if (updatedNotificationTrigger) return new NotificationTrigger({ ...updatedNotificationTrigger, name: updatedNotificationTrigger.name || '', })
+        } catch {
             throw new Error(errors.COULD_NOT_UPDATE_NOTIFICATION_TRIGGER)
         }
 

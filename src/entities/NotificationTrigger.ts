@@ -1,6 +1,6 @@
 export default class NotificationTrigger {
     id?: string
-    name: string | null
+    name: string
     type: string
     logicOperator: string
     value: number
@@ -8,5 +8,5 @@ export default class NotificationTrigger {
 
     constructor(props: NotificationTrigger) {
         Object.assign(this, props)
-     }
+    }
 }
