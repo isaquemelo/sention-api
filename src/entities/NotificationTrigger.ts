@@ -8,5 +8,5 @@ export default class NotificationTrigger {
 
     constructor(props: NotificationTrigger) {
         Object.assign(this, props)
-     }
+    }
 }
