@@ -1,6 +1,6 @@
 export default class NotificationTrigger {
     id?: string
-    name: string
+    name: string | null
     type: string
     logicOperator: string
     value: number

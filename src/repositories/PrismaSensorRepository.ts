@@ -164,10 +164,29 @@ export default class PrismaSensorRepository implements ISensorRepository {
             })
 
             return true
-            
+
         }catch(error){
             throw new Error(errors.COULD_NOT_DELETE_SENSOR)
         }
+    }
+
+    async updateNotificationTrigger(notificationTrigger: NotificationTrigger): Promise<false | NotificationTrigger>{
+        try{
+            const updatedNotificationTrigger = await this.prisma.notificationTrigger.update({
+                where:{
+                    id: notificationTrigger.id,
+                },
+                data: {
+                    ...notificationTrigger
+                }
+            })
+
+            if (updatedNotificationTrigger) return new NotificationTrigger({...updatedNotificationTrigger})
+        }catch{
+            throw new Error(errors.COULD_NOT_UPDATE_NOTIFICATION_TRIGGER)
+        }
+
+        return false
     }
 
 
