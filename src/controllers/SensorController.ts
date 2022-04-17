@@ -2,6 +2,7 @@ import { Request, Response } from 'express'
 import { StatusCodes } from 'http-status-codes'
 import { ISensorDataDTO } from '../useCases/interfaces/ISensorDataDTO'
 import { ISensorDTO } from '../useCases/interfaces/ISensorDTO'
+import { ISensorsBulkDataDTO } from '../useCases/interfaces/ISensorsBulkDataDTO'
 
 import CreateSensorDataUseCase from '../useCases/user/CreateSensorDataUseCase'
 import CreateSensorUseCase from '../useCases/user/CreateSensorUseCase'
@@ -94,6 +95,30 @@ export default class SensorController {
         try {
             const sensor = await this.updateSensorUseCase.execute(body, sensorId, userId)
             if (sensor) return res.status(StatusCodes.CREATED).send(sensor)
+            return res.status(StatusCodes.UNAUTHORIZED).send()
+        } catch (error) {
+            console.error(error)
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send()
+        }
+    }
+
+    async saveBulkSensorData(req: Request, res: Response): Promise<Response | undefined> {
+        const { userId } = req.params
+        const body: ISensorsBulkDataDTO = req.body
+
+        try {
+            const savedSensorsData: any[] = []
+            const promises = Promise.all(body.data.map(async sensorDataItem => {
+                const sensorData = await this.createSensorDataUseCase.execute(sensorDataItem, sensorDataItem.id || '', userId)
+
+                if (!sensorData) res.status(StatusCodes.UNAUTHORIZED).send()
+                savedSensorsData.push(sensorData)
+
+                return sensorData
+            }))
+
+            promises.then(() => res.status(StatusCodes.CREATED).send(savedSensorsData))
+
             return res.status(StatusCodes.UNAUTHORIZED).send()
         } catch (error) {
             console.error(error)
