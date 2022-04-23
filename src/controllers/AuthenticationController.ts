@@ -8,7 +8,7 @@ export default class AuthenticationController {
     constructor(private authenticateUserUseCase: AuthenticateUserUseCase) { }
 
     async authenticate(req: Request, res: Response): Promise<Response | undefined> {
-        const { email, password } = req.body
+        const { email = "", password = "" } = req.body
 
         try {
             const auth = await this.authenticateUserUseCase.execute({ email, password })
