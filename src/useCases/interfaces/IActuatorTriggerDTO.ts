@@ -5,4 +5,5 @@ export interface IActuatorTriggerDTO {
     logicOperator: string
     value: number
     description: string
+    sensorId: string
 }

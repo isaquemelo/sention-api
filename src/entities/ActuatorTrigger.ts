@@ -5,6 +5,7 @@ export default class ActuatorTrigger {
     logicOperator: string
     value: number
     description: string
+    sensorId: string
 
     constructor(props: ActuatorTrigger) {
         Object.assign(this, props)
