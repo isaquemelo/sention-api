@@ -47,6 +47,7 @@ model NotificationTrigger {
   content       String
   sensor        Sensor  @relation(fields: [sensorId], references: [id], onDelete: Cascade)
   sensorId      String
+  dataSource    String?
 }
 
 model SensorData {
@@ -79,4 +80,5 @@ model ActuatorTrigger {
   sensorId      String
   actuator      Actuator @relation(fields: [actuatorId], references: [id], onDelete: Cascade)
   actuatorId    String
+  dataSource    String?
 }
