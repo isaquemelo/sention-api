@@ -111,14 +111,19 @@ export default class SensorController {
             const promises = Promise.all(body.data.map(async sensorDataItem => {
                 const sensorData = await this.createSensorDataUseCase.execute(sensorDataItem, sensorDataItem.id || '', userId)
 
-                if (!sensorData) res.status(StatusCodes.UNAUTHORIZED).send()
-                savedSensorsData.push(sensorData)
+                if (!sensorData) {
+                    return Promise.reject(false)
+                }
 
+                savedSensorsData.push(sensorData)
                 return sensorData
             }))
 
-            promises
+            return promises
                 .then(() => res.status(StatusCodes.CREATED).send(savedSensorsData))
+                .catch(() => {
+                    return res.status(StatusCodes.UNAUTHORIZED).send()
+                })
                 .finally(() => {
                     return res.status(StatusCodes.UNAUTHORIZED).send()
                 })
