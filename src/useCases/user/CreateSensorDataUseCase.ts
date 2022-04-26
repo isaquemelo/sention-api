@@ -22,6 +22,8 @@ export default class CreateSensorDataUseCase {
             delete data.timestamp
         }
 
+        // Removes the sensorId from the sensorData object
+        delete data.id;
         const sensorData = new SensorData({ ...data, createdAt: date })
 
         // Checks if the current user is the owner of the inteded thing to be changed

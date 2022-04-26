@@ -117,9 +117,12 @@ export default class SensorController {
                 return sensorData
             }))
 
-            promises.then(() => res.status(StatusCodes.CREATED).send(savedSensorsData))
+            promises
+                .then(() => res.status(StatusCodes.CREATED).send(savedSensorsData))
+                .finally(() => {
+                    return res.status(StatusCodes.UNAUTHORIZED).send()
+                })
 
-            return res.status(StatusCodes.UNAUTHORIZED).send()
         } catch (error) {
             console.error(error)
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send()
