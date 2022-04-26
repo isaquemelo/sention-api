@@ -6,6 +6,7 @@ export default class ActuatorTrigger {
     value: number
     description: string
     sensorId: string
+    dataSource?: string
 
     constructor(props: ActuatorTrigger) {
         Object.assign(this, props)

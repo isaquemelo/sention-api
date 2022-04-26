@@ -181,7 +181,7 @@ export default class PrismaSensorRepository implements ISensorRepository {
                 }
             })
 
-            if (updatedNotificationTrigger) return new NotificationTrigger({ ...updatedNotificationTrigger, name: updatedNotificationTrigger.name || '', })
+            if (updatedNotificationTrigger) return new NotificationTrigger({ ...updatedNotificationTrigger, name: updatedNotificationTrigger.name || '', dataSource: updatedNotificationTrigger.dataSource ?? undefined })
         } catch {
             throw new Error(errors.COULD_NOT_UPDATE_NOTIFICATION_TRIGGER)
         }

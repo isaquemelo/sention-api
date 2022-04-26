@@ -85,7 +85,7 @@ export default class PrismaActuatorRepository implements IActuatorRepository {
                 }
             })
 
-            if (updatedTrigger) return new ActuatorTrigger({ ...updatedTrigger })
+            if (updatedTrigger) return new ActuatorTrigger({ ...updatedTrigger, dataSource: updatedTrigger.dataSource ?? undefined })
         } catch (error) {
             throw new Error(errors.COULD_NOT_UPDATE_ACTUATOR_TRIGGER)
         }

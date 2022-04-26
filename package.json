@@ -8,12 +8,14 @@
   },
   "dependencies": {
     "@prisma/client": "^3.12.0",
+    "@sendgrid/mail": "^7.6.2",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
     "http-status-codes": "^2.2.0",
     "jsonwebtoken": "^8.5.1",
+    "nodemailer": "^6.7.3",
     "shortid": "^2.2.16"
   },
   "devDependencies": {
@@ -22,6 +24,7 @@
     "@types/express": "4.17.13",
     "@types/jsonwebtoken": "^8.5.8",
     "@types/node": "16.11.26",
+    "@types/nodemailer": "^6.4.4",
     "@types/shortid": "^0.0.29",
     "@typescript-eslint/eslint-plugin": "^5.18.0",
     "@typescript-eslint/parser": "^5.18.0",

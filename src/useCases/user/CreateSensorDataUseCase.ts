@@ -5,9 +5,14 @@ import { IUserRepository } from '../../repositories/interfaces/user/IUserReposit
 
 import { ISensorDataDTO } from '../interfaces/ISensorDataDTO'
 
+import ActionNotificationTriggerUseCase from './ActionNotificationTriggerUseCase'
 
 export default class CreateSensorDataUseCase {
-    constructor(private sensorRepository: ISensorRepository, private usersRepository: IUserRepository) { }
+    private actionNotificationTriggerUseCase: ActionNotificationTriggerUseCase
+
+    constructor(private sensorRepository: ISensorRepository, private usersRepository: IUserRepository) {
+        this.actionNotificationTriggerUseCase = new ActionNotificationTriggerUseCase(sensorRepository)
+    }
 
     async execute(data: ISensorDataDTO, sensorId: string, userId: string): Promise<SensorData | false> {
         let date = new Date()
@@ -35,6 +40,9 @@ export default class CreateSensorDataUseCase {
         })
 
         if (!user) return false
+
+        // Sends mails if necessary
+        this.actionNotificationTriggerUseCase.execute(sensorId, sensorData, user)
 
         // Save sensor data
         return await this.sensorRepository.saveData(sensorData, sensorId)

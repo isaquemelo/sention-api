@@ -5,6 +5,7 @@ export default class NotificationTrigger {
     logicOperator: string
     value: number
     content: string
+    dataSource?: string
 
     constructor(props: NotificationTrigger) {
         Object.assign(this, props)
