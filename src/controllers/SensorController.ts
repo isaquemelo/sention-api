@@ -120,8 +120,8 @@ export default class SensorController {
             }))
 
             return promises
-                .then(() => res.status(StatusCodes.CREATED).send(savedSensorsData))
-                .catch(() => {
+                .then(() => res.status(StatusCodes.CREATED).send())
+                .catch((error) => {
                     return res.status(StatusCodes.UNAUTHORIZED).send()
                 })
                 .finally(() => {

@@ -114,7 +114,8 @@ export default class PrismaActuatorRepository implements IActuatorRepository {
             const savedActuatorTrigger = await this.prisma.actuatorTrigger.create({
                 data: {
                     actuatorId,
-                    ...trigger
+                    ...trigger,
+                    dataSource: trigger.dataSource ?? ""
                 }
             })
 

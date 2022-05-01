@@ -144,6 +144,7 @@ export default class PrismaSensorRepository implements ISensorRepository {
                 data: {
                     sensorId,
                     ...notificationTrigger,
+                    dataSource: notificationTrigger.dataSource ?? ""
                 }
             })
 
