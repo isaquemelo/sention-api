@@ -23,9 +23,9 @@ export default class ActionNotificationTriggerUseCase {
 
             let sensorValue = sensorData.data
 
-            if (dataSource) {
-                sensorValue = sensorData.data[dataSource]
-            }
+            
+            if (dataSource) sensorValue = sensorData.data[dataSource]
+            else sensorValue = sensorValue.value
 
             if (logicOperator === "GREATER_THAN") {
                 if (sensorValue > referenceValue) {
