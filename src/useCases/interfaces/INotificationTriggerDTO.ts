@@ -5,4 +5,5 @@ export interface INotificationTriggerDTO {
     logicOperator: string
     value: number
     content: string
+    lastTriggered: Date
 }

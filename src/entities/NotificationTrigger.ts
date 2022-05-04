@@ -6,6 +6,7 @@ export default class NotificationTrigger {
     value: number
     content: string
     dataSource?: string
+    lastTriggered: Date
 
     constructor(props: NotificationTrigger) {
         Object.assign(this, props)
