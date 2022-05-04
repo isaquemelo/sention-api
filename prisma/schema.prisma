@@ -48,6 +48,7 @@ model NotificationTrigger {
   sensor        Sensor  @relation(fields: [sensorId], references: [id], onDelete: Cascade)
   sensorId      String
   dataSource    String
+  lastTriggered DateTime @default(now())
 }
 
 model SensorData {

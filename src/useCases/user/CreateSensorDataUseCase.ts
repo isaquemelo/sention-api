@@ -11,7 +11,7 @@ export default class CreateSensorDataUseCase {
     private actionNotificationTriggerUseCase: ActionNotificationTriggerUseCase
 
     constructor(private sensorRepository: ISensorRepository, private usersRepository: IUserRepository) {
-        this.actionNotificationTriggerUseCase = new ActionNotificationTriggerUseCase(sensorRepository)
+        this.actionNotificationTriggerUseCase = new ActionNotificationTriggerUseCase(sensorRepository, usersRepository)
     }
 
     async execute(data: ISensorDataDTO, sensorId: string, userId: string): Promise<SensorData | false> {
