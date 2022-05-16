@@ -58,9 +58,9 @@ export default class ActuatorController {
         const { actuatorId, userId } = req.params
 
         try {
-            const sensor = await this.getActuatorUseCase.execute(actuatorId, userId)
-            if (!sensor) return res.status(StatusCodes.NOT_FOUND).send()
-            return res.send(sensor)
+            const actuator = await this.getActuatorUseCase.execute(actuatorId, userId)
+            if (!actuator) return res.status(StatusCodes.NOT_FOUND).send()
+            return res.send(actuator)
         } catch (error) {
             console.error(error)
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send()
