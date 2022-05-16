@@ -20,5 +20,9 @@ export default class ActuatorRoutes {
         router.put('/user/devices/actuators/:actuatorId', AuthenticationdMiddleware, (req, res) => {
             return actuatorController.updateActuator(req, res)
         })
+
+        router.get('/user/devices/actuators/:actuatorId', AuthenticationdMiddleware, (req, res) => {
+            return actuatorController.getActuator(req, res)
+        })
     }
 }

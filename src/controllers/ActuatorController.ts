@@ -4,12 +4,13 @@ import { IActuatorDTO } from '../useCases/interfaces/IActuatorDTO'
 
 import CreateActuatorUseCase from '../useCases/user/CreateActuatorUseCase'
 import DeleteActuatorUseCase from '../useCases/user/DeleteActuatorUseCase'
+import getActuatorUseCase from '../useCases/user/GetActuatorUseCase'
 import UpdateActuatorUseCase from '../useCases/user/UpdateActuatorUseCase'
 
 export default class ActuatorController {
     constructor(
         private createActuatorUseCase: CreateActuatorUseCase, private deleteActuatorUseCase: DeleteActuatorUseCase,
-        private updateActuatorUseCase: UpdateActuatorUseCase) { }
+        private updateActuatorUseCase: UpdateActuatorUseCase, private getActuatorUseCase: getActuatorUseCase) { }
 
     async deleteActuator(req: Request, res: Response): Promise<Response | undefined> {
         const { actuatorId, userId } = req.params
@@ -47,6 +48,19 @@ export default class ActuatorController {
             const actuator = await this.updateActuatorUseCase.execute(body, actuatorId, userId)
             if (actuator) return res.send(actuator)
             return res.status(StatusCodes.UNAUTHORIZED).send()
+        } catch (error) {
+            console.error(error)
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send()
+        }
+    }
+
+    async getActuator(req: Request, res: Response): Promise<Response | undefined> {
+        const { actuatorId, userId } = req.params
+
+        try {
+            const sensor = await this.getActuatorUseCase.execute(actuatorId, userId)
+            if (!sensor) return res.status(StatusCodes.NOT_FOUND).send()
+            return res.send(sensor)
         } catch (error) {
             console.error(error)
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send()
