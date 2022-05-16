@@ -18,6 +18,7 @@ model User {
 model Device {
   id         String     @id @default(uuid())
   accessCode String     @unique
+  name       String?
   sensors    Sensor[]
   actuators  Actuator[]
   user       User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -40,7 +41,7 @@ model Sensor {
 
 model NotificationTrigger {
   id            String  @id @default(uuid())
-  name          String?
+  name          String
   type          String
   logicOperator String
   value         Float

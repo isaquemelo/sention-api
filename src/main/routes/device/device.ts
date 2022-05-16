@@ -22,5 +22,9 @@ export default class DeviceRoutes {
         router.get('/user/devices/:deviceId', AuthenticationdMiddleware, (req, res) => {
             return deviceController.getDevice(req, res)
         })
+
+        router.put('/user/devices/:deviceId', AuthenticationdMiddleware, (req, res) => {
+            return deviceController.updateDevice(req, res)
+        })
     }
 }

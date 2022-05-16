@@ -3,6 +3,7 @@ import Sensor from './Sensor'
 
 export default class Device {
     id: string
+    name?: string | null
     accessCode: string
     sensors: Sensor[]
     actuators: Actuator[]

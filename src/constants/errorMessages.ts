@@ -1,6 +1,7 @@
 export const errors = {
     USER_NOT_FOUND: 'User not found.',
     DEVICE_NOT_FOUND: 'Device not found.',
+    COULD_NOT_UPDATE_DEVICE: 'Device could not be updated',
     SENSOR_NOT_FOUND: 'Sensor not found.',
     ACTUATOR_NOT_FOUND: 'Actuator not found.',
     COULD_NOT_SAVE_USER: 'User could not be saved.',
