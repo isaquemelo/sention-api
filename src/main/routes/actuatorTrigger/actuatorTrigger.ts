@@ -14,15 +14,15 @@ export default class ActuatorTriggerRoutes {
             return actuatorTriggerController.saveActuatorTrigger(req, res)
         })
 
-        router.delete('/user/devices/actuators/:actuatorId/trigger/:triggerId', AuthenticationdMiddleware, (req, res) => {
+        router.delete('/user/devices/actuators/trigger/:triggerId', AuthenticationdMiddleware, (req, res) => {
             return actuatorTriggerController.deleteActuatorTrigger(req, res)
         })
 
-        router.put('/user/devices/actuators/:actuatorId/trigger/:triggerId', AuthenticationdMiddleware, (req, res) => {
+        router.put('/user/devices/actuators/trigger/:triggerId', AuthenticationdMiddleware, (req, res) => {
             return actuatorTriggerController.updateActuatorTrigger(req, res)
         })
     }
 }
 
 
- 
+
