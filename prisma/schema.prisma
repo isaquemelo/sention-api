@@ -49,7 +49,7 @@ model NotificationTrigger {
   sensor        Sensor  @relation(fields: [sensorId], references: [id], onDelete: Cascade)
   sensorId      String
   dataSource    String
-  lastTriggered DateTime @default(now())
+  lastTriggered DateTime  @default(dbgenerated("('2022-01-01 12:12:12')")) @db.DateTime(0)
 }
 
 model SensorData {
