@@ -57,10 +57,10 @@ export default class ActuatorTriggerController {
     }
 
     async getActuatorTrigger(req: Request, res: Response): Promise<Response | undefined> {
-        const { actuatorTriggerId, userId } = req.params
+        const { triggerId, userId } = req.params
 
         try {
-            const actuatorTrigger = await this.getActuatorTriggerUseCase.execute(actuatorTriggerId, userId)
+            const actuatorTrigger = await this.getActuatorTriggerUseCase.execute(triggerId, userId)
             if (actuatorTrigger) return res.send(actuatorTrigger)
             return res.status(StatusCodes.UNAUTHORIZED).send()
         } catch (error) {
