@@ -13,11 +13,11 @@ export default class NotificationTriggerRoutes {
             return notificationTriggerController.saveNotificationTrigger(req, res)
         })
 
-        router.delete('/user/devices/sensors/:sensorId/notificationTrigger/:notificationTriggerId', AuthenticationdMiddleware, (req, res) => {
+        router.delete('/user/devices/sensors/notificationTrigger/:notificationTriggerId', AuthenticationdMiddleware, (req, res) => {
             return notificationTriggerController.deleteNotificationTrigger(req, res)
         })
 
-        router.put('/user/devices/sensors/:sensorId/notificationTrigger/:notificationTriggerId', AuthenticationdMiddleware, (req, res) => {
+        router.put('/user/devices/sensors/notificationTrigger/:notificationTriggerId', AuthenticationdMiddleware, (req, res) => {
             return notificationTriggerController.updateNotificationTrigger(req, res)
         })
     }
