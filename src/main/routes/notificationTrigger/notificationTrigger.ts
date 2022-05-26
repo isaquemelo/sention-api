@@ -20,5 +20,9 @@ export default class NotificationTriggerRoutes {
         router.put('/user/devices/sensors/notificationTrigger/:notificationTriggerId', AuthenticationdMiddleware, (req, res) => {
             return notificationTriggerController.updateNotificationTrigger(req, res)
         })
+
+        router.get('/user/devices/sensors/notificationTrigger/:notificationTriggerId', AuthenticationdMiddleware, (req, res) => {
+            return notificationTriggerController.getNotificationTrigger(req, res)
+        })
     }
 }
