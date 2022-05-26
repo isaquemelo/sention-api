@@ -141,4 +141,21 @@ export default class PrismaActuatorRepository implements IActuatorRepository {
             throw new Error(errors.COULD_NOT_DELETE_ACTUATOR)
         }
     }
+
+    async findOneActuatorTrigger(actuatorTriggerId: string): Promise<ActuatorTrigger | false> {
+        try {
+
+            const actuatorTrigger = await this.prisma.actuatorTrigger.findUnique({
+                where: {
+                    id: actuatorTriggerId
+                }
+            })
+
+            if (actuatorTrigger) return new ActuatorTrigger({...actuatorTrigger})
+            return false
+
+        } catch (error) {
+            throw new Error(errors.COULD_NOT_DELETE_SENSOR)
+        }
+    }
 }

@@ -12,4 +12,5 @@ export interface IActuatorRepository {
     saveTrigger(trigger: ActuatorTrigger, actuatorId: string): Promise<ActuatorTrigger | false>;
     updateTrigger(trigger: ActuatorTrigger): Promise<ActuatorTrigger | false>;
     deleteTrigger(triggerId: string): Promise<boolean>;
+    findOneActuatorTrigger(triggerId: string): Promise<ActuatorTrigger | false>;
 }
