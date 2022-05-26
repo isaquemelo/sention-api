@@ -18,4 +18,5 @@ export interface ISensorRepository {
     saveNotificationTrigger(notificationTrigger: NotificationTrigger, sensorId: string): Promise<NotificationTrigger | false>
     deleteNotificationTrigger(notificationTriggerId: string): Promise<boolean>
     updateNotificationTrigger(notificationTrigger: NotificationTrigger): Promise<false | NotificationTrigger>
+    findOneNotificationTrigger(notificationTriggerId: string): Promise<NotificationTrigger | false>
 }

@@ -190,5 +190,21 @@ export default class PrismaSensorRepository implements ISensorRepository {
         return false
     }
 
+    async findOneNotificationTrigger(notificationTriggerId: string): Promise<NotificationTrigger | false> {
+        try {
+
+            const notificationTrigger = await this.prisma.notificationTrigger.findUnique({
+                where: {
+                    id: notificationTriggerId
+                }
+            })
+
+            if (notificationTrigger) return new NotificationTrigger({...notificationTrigger})
+            return false
+
+        } catch (error) {
+            throw new Error(errors.COULD_NOT_DELETE_SENSOR)
+        }
+    }
 
 }
