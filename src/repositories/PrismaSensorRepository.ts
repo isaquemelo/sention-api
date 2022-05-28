@@ -112,7 +112,7 @@ export default class PrismaSensorRepository implements ISensorRepository {
     }
 
     async getData(sensorId: string, page: number, day: Date): Promise<SensorData[] | false> {
-        const perPage = 10
+        const perPage = 20
         const afterDay = new Date(day.getTime() + 86400000)
         const skip = (page - 1) * perPage
 
@@ -199,7 +199,7 @@ export default class PrismaSensorRepository implements ISensorRepository {
                 }
             })
 
-            if (notificationTrigger) return new NotificationTrigger({...notificationTrigger})
+            if (notificationTrigger) return new NotificationTrigger({ ...notificationTrigger })
             return false
 
         } catch (error) {
