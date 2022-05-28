@@ -203,7 +203,7 @@ export default class PrismaSensorRepository implements ISensorRepository {
             return false
 
         } catch (error) {
-            throw new Error(errors.COULD_NOT_DELETE_SENSOR)
+            throw new Error(errors.NOTIFICATION_TRIGGER_NOT_FOUND)
         }
     }
 
