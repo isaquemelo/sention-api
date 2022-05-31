@@ -24,8 +24,15 @@ export default class PrismaSensorRepository implements ISensorRepository {
                 },
 
                 include: {
-                    notificationTriggers: true
-                }
+                    notificationTriggers: {
+                        orderBy: [
+                            {
+                                name: 'asc',
+                            },
+                        ],
+                    }
+                },
+
             })
 
             if (sensor) {
@@ -126,7 +133,12 @@ export default class PrismaSensorRepository implements ISensorRepository {
                         gte: day,
                         lte: afterDay,
                     }
-                }
+                },
+                orderBy: [
+                    {
+                        createdAt: 'desc',
+                    },
+                ],
             })
 
             if (sensorData) return sensorData.map((occurrence): SensorData => prismaSensorDataAdapter(occurrence))

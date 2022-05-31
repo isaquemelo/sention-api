@@ -21,7 +21,13 @@ export default class PrismaActuatorRepository implements IActuatorRepository {
                 },
 
                 include: {
-                    triggers: true
+                    triggers: {
+                        orderBy: [
+                            {
+                                name: 'asc',
+                            },
+                        ],
+                    }
                 }
             })
 

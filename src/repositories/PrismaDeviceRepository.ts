@@ -44,9 +44,20 @@ export default class PrismaDeviceRepository implements IDeviceRepository {
                     actuators: {
                         include: {
                             triggers: true,
-                        }
+                        },
+                        orderBy: [
+                            {
+                                createdAt: 'desc',
+                            },
+                        ],
                     },
-                    sensors: true,
+                    sensors: {
+                        orderBy: [
+                            {
+                                createdAt: 'desc',
+                            },
+                        ],
+                    },
                 }
             })
 
@@ -82,12 +93,12 @@ export default class PrismaDeviceRepository implements IDeviceRepository {
 
     async update(deviceId: string, device: IDeviceDTO): Promise<false | Device> {
 
-        try{
+        try {
             const deviceUpdated = await this.prisma.device.update({
-                where:{
+                where: {
                     id: deviceId
                 },
-                data:{
+                data: {
                     name: device.name
                 },
                 include: {
@@ -101,7 +112,7 @@ export default class PrismaDeviceRepository implements IDeviceRepository {
             })
             if (deviceUpdated) return prismaDeviceAdapter(deviceUpdated)
             return false
-        } catch (error){
+        } catch (error) {
             throw new Error(errors.COULD_NOT_UPDATE_DEVICE)
         }
     }
