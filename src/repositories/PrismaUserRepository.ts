@@ -21,9 +21,20 @@ export default class PrismaUserRepository implements IUserRepository {
                             actuators: {
                                 include: {
                                     triggers: true,
-                                }
+                                },
+                                orderBy: [
+                                    {
+                                        createdAt: 'desc',
+                                    },
+                                ],
                             },
-                            sensors: true,
+                            sensors: {
+                                orderBy: [
+                                    {
+                                        createdAt: 'desc',
+                                    },
+                                ],
+                            },
                         }
                     },
                 },
