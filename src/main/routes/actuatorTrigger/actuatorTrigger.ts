@@ -21,6 +21,10 @@ export default class ActuatorTriggerRoutes {
         router.put('/user/devices/actuators/trigger/:triggerId', AuthenticationdMiddleware, (req, res) => {
             return actuatorTriggerController.updateActuatorTrigger(req, res)
         })
+
+        router.get('/user/devices/actuators/trigger/:triggerId', AuthenticationdMiddleware, (req, res) => {
+            return actuatorTriggerController.getActuatorTrigger(req, res)
+        })
     }
 }
 
