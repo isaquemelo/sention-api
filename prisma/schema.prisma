@@ -4,9 +4,10 @@ generator client {
 
 datasource db {
   provider = "mysql"
-  url      = "mysql://root:password@localhost:3306/testingprisma"
+  url      = env("DATABASE_INFORMATION")
 }
 
+// npx prisma migrate dev --name init
 model User {
   id       String   @id @default(uuid())
   name     String
@@ -40,16 +41,16 @@ model Sensor {
 }
 
 model NotificationTrigger {
-  id            String  @id @default(uuid())
+  id            String   @id @default(uuid())
   name          String
   type          String
   logicOperator String
   value         Float
   content       String
-  sensor        Sensor  @relation(fields: [sensorId], references: [id], onDelete: Cascade)
+  sensor        Sensor   @relation(fields: [sensorId], references: [id], onDelete: Cascade)
   sensorId      String
   dataSource    String
-  lastTriggered DateTime  @default(dbgenerated("('2022-01-01 12:12:12')")) @db.DateTime(0)
+  lastTriggered DateTime @default(dbgenerated("('2022-01-01 12:12:12')")) @db.DateTime(0)
 }
 
 model SensorData {
