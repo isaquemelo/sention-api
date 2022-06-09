@@ -48,7 +48,7 @@ export default class ActionNotificationTriggerUseCase {
             else if (logicOperator === "SMALLER_THAN") {
                 if (sensorValue < referenceValue) {
                     this.sendMailUseCase.execute(trigger, user.email)
-                    const updatedNotificationTrigger = new NotificationTrigger({...trigger, lastTriggered: lastTriggered})
+                    const updatedNotificationTrigger = new NotificationTrigger({...trigger, lastTriggered: currentTriggered})
                     this.updateNotificationTriggerUseCase.execute(updatedNotificationTrigger, updatedNotificationTrigger.id || "", user.id || "")
                 }
             }
