@@ -1,6 +1,6 @@
 enum logicOperators {
     GreaterThan = "GREATER_THAN",
-    SmallerThan = "SMALLER_THAN",
+    LessThan = "LESS_THAN",
 }
 
 export default logicOperators
