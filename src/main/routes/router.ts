@@ -13,10 +13,8 @@ const router = Router()
 let count = 0
 
 router.get('/ping', (req, res) => {
-    setTimeout(() => {
-        count++
-        return res.status(200).send(`Pong ${count}`)
-    }, 10000)
+    count++;
+    return res.status(200).send(`Pong ${count}`)
 })
 
 AuthRoutes.buildRoutes(router)
