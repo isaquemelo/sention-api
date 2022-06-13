@@ -5,6 +5,7 @@ import SendMailUseCase from './SendMailUseCase'
 import UpdateNotificationTriggerUseCase from './UpdateNotificationTriggerUseCase'
 import NotificationTrigger from '../../entities/NotificationTrigger'
 import { constants } from '../../constants/constants'
+import logicOperators from '../../entities/enums/logicOperators'
 
 
 
@@ -37,7 +38,7 @@ export default class ActionNotificationTriggerUseCase {
             if (dataSource) sensorValue = sensorData.data[dataSource]
             else sensorValue = sensorValue.value
 
-            if (logicOperator === "GREATER_THAN") {
+            if (logicOperator === logicOperators.GreaterThan) {
                 if (sensorValue > referenceValue) {
                     this.sendMailUseCase.execute(trigger, user.email)
                     const updatedNotificationTrigger = new NotificationTrigger({...trigger, lastTriggered: currentTriggered})
@@ -45,10 +46,10 @@ export default class ActionNotificationTriggerUseCase {
                 }
             }
 
-            else if (logicOperator === "SMALLER_THAN") {
+            else if (logicOperator === logicOperators.LessThan) {
                 if (sensorValue < referenceValue) {
                     this.sendMailUseCase.execute(trigger, user.email)
-                    const updatedNotificationTrigger = new NotificationTrigger({...trigger, lastTriggered: lastTriggered})
+                    const updatedNotificationTrigger = new NotificationTrigger({...trigger, lastTriggered: currentTriggered})
                     this.updateNotificationTriggerUseCase.execute(updatedNotificationTrigger, updatedNotificationTrigger.id || "", user.id || "")
                 }
             }
