@@ -62,6 +62,7 @@ export default class PrismaUserRepository implements IUserRepository {
             // ToDo: Save devices
             if (savedUser) return new User({ ...savedUser, devices: [] })
         } catch (error) {
+            console.log("error", error)
             throw new Error(errors.COULD_NOT_SAVE_USER)
         }
 
