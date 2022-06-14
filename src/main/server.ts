@@ -15,8 +15,8 @@ class App {
 
         this.setupApp()
 
-        this.expressApp.listen(8080)
-        console.info("Server running on port 8080")
+        this.expressApp.listen(process.env.PORT ?? 8080)
+        console.info("Server running on port", process.env.PORT ?? 8080)
     }
 
     public static getInstance(): App {
