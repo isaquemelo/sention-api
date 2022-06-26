@@ -17,6 +17,11 @@ export default class PrismaUserRepository implements IUserRepository {
                 },
                 include: {
                     devices: {
+                        orderBy: [
+                            {
+                                name: 'asc',
+                            },
+                        ],
                         include: {
                             actuators: {
                                 include: {
