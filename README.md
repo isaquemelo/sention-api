@@ -89,6 +89,6 @@ evidenciando as entidades citadas previamente.
 - Baixe o projeto
 - Abra-o com o Visual Studio Code
 - Com o Docker baixado, abra o terminal e digite ```setup-db.sh```
-- Abra o Docker, em "prismamysql" clique em START
+- Abra o Docker, no container "prismamysql", clique em START
 - Abra o terminal e digite ```npm run dev```
 - Abra outro terminal e digite ```npx prisma studio```
